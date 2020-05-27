@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Masha Legostina](https://up.htmlacademy.ru/javascript/20/user/888827).
-* Наставник: [Алексей 🦊 Михеев](https://htmlacademy.ru/profile/id454457).
+* Наставник: [Алексей Михеев](https://htmlacademy.ru/profile/id454457).
 
 ---
 
