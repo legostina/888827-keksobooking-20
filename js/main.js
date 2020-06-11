@@ -19,11 +19,11 @@ var PriceFlat = {
   MAX: 5000,
 };
 var RoomFlat = {
-  MIN: 1,
+  MIN: 2,
   MAX: 4,
 };
 var QuestFlat = {
-  MIN: 1,
+  MIN: 2,
   MAX: 5,
 };
 var LocationVertical = {
@@ -154,7 +154,7 @@ var renderPopup = function (pin) {
   popupElement.querySelector('.popup__text--address').textContent = pin.offer.address;
   popupElement.querySelector('.popup__text--price').textContent = pin.offer.price + '₽/ночь';
   popupElement.querySelector('.popup__type').textContent = getDisplayPlacementType(pin.offer.type);
-  popupElement.querySelector('.popup__text--capacity').textContent = pin.offer.rooms + ' комнаты для ' + pin.offer.guests;
+  popupElement.querySelector('.popup__text--capacity').textContent = pin.offer.rooms + ' комнаты для ' + pin.offer.guests + ' гостей';
   popupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + pin.offer.checkin + ', выезд до ' + pin.offer.checkout;
   popupElement.querySelector('.popup__features').textContent = pin.offer.features.join(',');
   popupElement.querySelector('.popup__description').textContent = pin.offer.description;
