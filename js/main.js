@@ -132,7 +132,7 @@ var renderPins = function (pins) {
 
 var renderPhotos = function (popupPhotosContainer, photos) {
   var photoTemplate = popupPhotosContainer.querySelector('img');
-  var photoElement = popupPhotosContainer.cloneNode(true);
+  var photoElement = photoTemplate.cloneNode(true);
   var fragment = document.createDocumentFragment();
 
   photoTemplate.remove();
