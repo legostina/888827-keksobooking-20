@@ -7,6 +7,21 @@ var PlacementType = {
   BUNGALO: 'bungalo'
 };
 
+var QuantityRooms = {
+  ONE: 1,
+  TWO: 2,
+  THREE: 3,
+  HUNDRED: 100
+};
+
+var QuantityQuest = {
+  ONE: 1,
+  TWO: 2,
+  THREE: 3,
+  ZERO: 0
+};
+
+var ENTER = 'Enter';
 var TITLES = ['Уютная студия в черте города', 'Роскошные аппартаменты', 'Семейное гнездышко'];
 var TYPES = [PlacementType.PLACE, PlacementType.FLAT, PlacementType.HOUSE, PlacementType.BUNGALO];
 var TIMES = ['12:00', '13:00', '14:00'];
@@ -19,12 +34,12 @@ var PriceFlat = {
   MAX: 5000,
 };
 var RoomFlat = {
-  MIN: 2,
-  MAX: 4,
+  MIN: 1,
+  MAX: 100,
 };
 var QuestFlat = {
-  MIN: 2,
-  MAX: 5,
+  MIN: 1,
+  MAX: 100,
 };
 var LocationVertical = {
   MIN: 130,
@@ -36,11 +51,13 @@ var LocationHorizontal = {
 };
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
+var AFTER_PIN = 22;
 
 var pinButton = document.querySelector('#pin').content.querySelector('.map__pin');
 var mapPinsContainer = document.querySelector('.map__pins');
 var mapCard = document.querySelector('#card').content.querySelector('.map__card');
 var mapContainer = document.querySelector('.map');
+var buttonHome = document.querySelector('.map__pin--main');
 
 var isPageActive = false;
 
@@ -173,35 +190,90 @@ var renderPopup = function (pin) {
   mapContainer.insertAdjacentElement('afterbegin', popupElement);
 };
 
+var changeFormState = function () {
+  var fieldsets = document.querySelectorAll('fieldset');
+  Array.from(fieldsets).forEach(function (fieldset) {
+    fieldset.disabled = !isPageActive;
+  });
+};
+
+var setOfferAddress = function () {
+  var x = 0;
+  var y = 0;
+  var addressInput = document.querySelector('#address');
+
+  if (isPageActive) {
+    x = (buttonHome.offsetLeft + buttonHome.offsetWidth) / 2;
+    y = buttonHome.offsetTop + buttonHome.offsetHeight + AFTER_PIN;
+
+  } else {
+    x = (buttonHome.offsetLeft + buttonHome.offsetWidth) / 2;
+    y = (buttonHome.offsetTop + buttonHome.offsetHeight) / 2;
+  }
+  addressInput.value = x + ', ' + y;
+};
+
+var startPage = function () {
+  changeFormState();
+  setOfferAddress();
+};
+
+var activatePage = function () {
+  isPageActive = true;
+  mapContainer.classList.remove('map--faded');
+  setOfferAddress();
+  changeFormState();
+};
+
+var initEvents = function () {
+  buttonHome.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    if (evt.button === 0) {
+      activatePage();
+    }
+  });
+
+  buttonHome.addEventListener('keydown', function (evt) {
+    evt.preventDefault();
+    if (evt.key === ENTER) {
+      activatePage();
+    }
+  });
+};
+
+var form = document.querySelector('form');
+var userRoomNumber = document.querySelector('#room_number');
+
+var validateCapacity = function () {
+  var roomValue = document.querySelector('#room_number').value;
+  var capacityValue = document.querySelector('#capacity').value;
+
+  if (roomValue === QuantityRooms.ONE && capacityValue !== QuantityQuest.ONE) {
+    capacityValue.setCustomValidity('Выберите не более одного гостя');
+  } else if (roomValue === QuantityRooms.TWO && capacityValue !== QuantityQuest.ONE || capacityValue !== QuantityQuest.TWO) {
+    capacityValue.setCustomValidity('Выберите не более двух гостей');
+  } else if (roomValue === QuantityRooms.THREE && capacityValue === QuantityQuest.ZERO) {
+    capacityValue.setCustomValidity('Выберите не более трех гостей');
+  } else if (roomValue === QuantityRooms.HUNDRED && capacityValue !== QuantityQuest.ZERO) {
+    capacityValue.setCustomValidity('Выберите пункт "не для гостей"');
+  } else {
+    capacityValue.setCustomValidity('');
+  }
+};
+
+var filterChangeFieldset = function (evt) {
+  if (evt.target.id === userRoomNumber.id) {
+    validateCapacity();
+  }
+};
+
+form.addEventListener('change', filterChangeFieldset);
+
 var pins = getPins(8);
+startPage();
+initEvents();
 
 // renderPins(pins);
 // renderPopup(pins[0]);
 
-var fieldsets = document.querySelectorAll('fieldset');
-Array.from(fieldsets).forEach(function (fieldset) {
-  fieldset.disabled = true;
-});
-
-var buttonHome = document.querySelectorAll('.map__pin');
-
-buttonHome.addEventListener('mousemove', function () {
-  if (isPageActive === true) {
-    mapCard.classList.remove('.map--faded');
-  }
-
-  document.addEventListener('keydown', function (evt) {
-    if (evt.key === 27) {
-      mapContainer.classList.remove('.map--faded');
-    }
-  });
-});
-
-// var buttonHome = document.querySelector('.map__pin--main');
-//
-// buttonHome.addEventListener('click', function () {
-//   mapContainer.classList.remove('.map--faded');
-// });
-//
-
-// console.log(pins);
+console.log(pins);
