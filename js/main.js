@@ -58,7 +58,6 @@ var mapPinsContainer = document.querySelector('.map__pins');
 var mapCard = document.querySelector('#card').content.querySelector('.map__card');
 var mapContainer = document.querySelector('.map');
 var buttonHome = document.querySelector('.map__pin--main');
-var form = document.querySelector('form');
 var formContainer = document.querySelector('.ad-form');
 var userRoomNumber = document.querySelector('#room_number');
 var capacityElement = document.querySelector('#capacity');
@@ -253,11 +252,11 @@ var validateCapacity = function () {
 
   if (roomValue === QuantityRooms.ONE && capacityValue !== QuantityQuest.ONE) {
     capacityElement.setCustomValidity('Выберите не более одного гостя');
-  } else if (roomValue === QuantityRooms.TWO && capacityValue !== QuantityQuest.ONE || capacityValue !== QuantityQuest.TWO) {
+  } else if (roomValue === QuantityRooms.TWO && capacityValue !== QuantityQuest.ONE && capacityValue !== QuantityQuest.TWO) {
     capacityElement.setCustomValidity('Выберите не более двух гостей');
-  } else if (roomValue === QuantityRooms.THREE && capacityValue !== QuantityQuest.ZERO) {
-    capacityElement.setCustomValidity('Выберите не более трех гостей');
-  } else if (roomValue === QuantityRooms.HUNDRED && capacityValue === QuantityQuest.ZERO) {
+  } else if (roomValue === QuantityRooms.THREE && capacityValue === QuantityQuest.ZERO) {
+    capacityElement.setCustomValidity('Выберите пункт с количеством гостей');
+  } else if (roomValue === QuantityRooms.HUNDRED && capacityValue !== QuantityQuest.ZERO) {
     capacityElement.setCustomValidity('Выберите пункт "не для гостей"');
   } else {
     capacityElement.setCustomValidity('');
@@ -265,19 +264,18 @@ var validateCapacity = function () {
 };
 
 var filterChangeFieldset = function (evt) {
-  if (evt.target.id === userRoomNumber.id) {
+  if (evt.target.id === userRoomNumber.id || (evt.target.id === capacityElement.id)) {
     validateCapacity();
   }
 };
 
-form.addEventListener('change', filterChangeFieldset);
+formContainer.addEventListener('change', filterChangeFieldset);
 
 var pins = getPins(8);
-startPage();
-validateCapacity();
+startPage(validateCapacity());
 initEvents();
 
 // renderPins(pins);
 // renderPopup(pins[0]);
 
-console.log(pins);
+// console.log(pins);
