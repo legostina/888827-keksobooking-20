@@ -54,6 +54,7 @@ var PIN_HEIGHT = 70;
 var AFTER_PIN = 22;
 var MIN_TITLE_LENGTH = 30;
 var MAX_TITLE_LENGTH = 100;
+var CLICK_LEFT_MOUSE = 0;
 
 var pinButton = document.querySelector('#pin').content.querySelector('.map__pin');
 var mapPinsContainer = document.querySelector('.map__pins');
@@ -228,7 +229,7 @@ var activatePage = function () {
   isPageActive = true;
   mapContainer.classList.remove('map--faded');
   formContainer.classList.remove('ad-form--disabled');
-  // renderPins(pins);
+  renderPins(pins);
   setOfferAddress();
   changeFormState();
 };
@@ -236,7 +237,7 @@ var activatePage = function () {
 var initEvents = function () {
   buttonHome.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-    if (evt.button === 0) {
+    if (evt.button === CLICK_LEFT_MOUSE) {
       activatePage();
     }
   });
@@ -250,8 +251,8 @@ var initEvents = function () {
 };
 
 var validateCapacity = function () {
-  var roomValue = document.querySelector('#room_number').value;
-  var capacityValue = document.querySelector('#capacity').value;
+  var roomValue = userRoomNumber.value;
+  var capacityValue = capacityElement.value;
 
   if (roomValue === QuantityRooms.ONE && capacityValue !== QuantityQuest.ONE) {
     capacityElement.setCustomValidity('Выберите не более одного гостя');
