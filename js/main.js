@@ -52,6 +52,8 @@ var LocationHorizontal = {
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var AFTER_PIN = 22;
+var MIN_TITLE_LENGTH = 30;
+var MAX_TITLE_LENGTH = 100;
 
 var pinButton = document.querySelector('#pin').content.querySelector('.map__pin');
 var mapPinsContainer = document.querySelector('.map__pins');
@@ -61,6 +63,7 @@ var buttonHome = document.querySelector('.map__pin--main');
 var formContainer = document.querySelector('.ad-form');
 var userRoomNumber = document.querySelector('#room_number');
 var capacityElement = document.querySelector('#capacity');
+var titleInput = document.querySelector('#title');
 
 var isPageActive = false;
 
@@ -225,7 +228,7 @@ var activatePage = function () {
   isPageActive = true;
   mapContainer.classList.remove('map--faded');
   formContainer.classList.remove('ad-form--disabled');
-  renderPins(pins);
+  // renderPins(pins);
   setOfferAddress();
   changeFormState();
 };
@@ -263,19 +266,35 @@ var validateCapacity = function () {
   }
 };
 
+var validateTitle = function () {
+  var valueLength = titleInput.value.length;
+
+  if (titleInput.validity.tooShort) {
+    titleInput.setCustomValidity('Значение должно быть не менее ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
+  } else if (titleInput.validity.tooLong) {
+    titleInput.setCustomValidity('Значение должно быть не более ' + (valueLength - MAX_TITLE_LENGTH) + ' симв.');
+  } else if (titleInput.validity.valueMissing) {
+    titleInput.setCustomValidity('Поле обязательно для заполнения');
+  } else {
+    titleInput.setCustomValidity('');
+  }
+};
+
 var filterChangeFieldset = function (evt) {
   if (evt.target.id === userRoomNumber.id || (evt.target.id === capacityElement.id)) {
     validateCapacity();
+  } if (evt.target.id === titleInput.id) {
+    validateTitle();
   }
 };
 
 formContainer.addEventListener('change', filterChangeFieldset);
 
 var pins = getPins(8);
-startPage(validateCapacity());
+startPage(validateCapacity(), validateTitle());
 initEvents();
 
-// renderPins(pins);
-// renderPopup(pins[0]);
+renderPins(pins);
+renderPopup(pins[0]);
 
-// console.log(pins);
+console.log(pins);
