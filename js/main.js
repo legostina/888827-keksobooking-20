@@ -234,8 +234,8 @@ var addCloseEvents = function () {
   });
 
   document.addEventListener('keydown', function (evt) {
-    evt.preventDefault();
     if (evt.key === UserClick.ESCAPE) {
+      evt.preventDefault();
       removePopup();
     }
   });
@@ -312,15 +312,15 @@ var activatePage = function () {
 
 var initEvents = function () {
   buttonHome.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
     if (evt.button === UserClick.LEFT_MOUSE) {
+      evt.preventDefault();
       activatePage();
     }
   });
 
   buttonHome.addEventListener('keydown', function (evt) {
-    evt.preventDefault();
     if (evt.key === UserClick.ENTER) {
+      evt.preventDefault();
       activatePage();
     }
   });
