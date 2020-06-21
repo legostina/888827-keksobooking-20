@@ -187,7 +187,7 @@ var renderPins = function (pins) {
     var pinElement = renderPin(pin);
     fragment.appendChild(pinElement);
 
-    pinElement.tabindex = i + 1;
+    pinElement.tabIndex = i + 1;
     addClickEvent(pinElement, pin);
   }
   mapPinsContainer.appendChild(fragment);
@@ -224,9 +224,9 @@ var removePopup = function () {
 };
 
 var addCloseEvents = function () {
-  var closeButton = document.querySelector('#popup_close');
+  var closeButton = popupElement.querySelector('.popup__close');
 
-  popupElement.addEventListener('click', function (evt) {
+  closeButton.addEventListener('click', function (evt) {
     evt.preventDefault();
     if (evt.button === UserClick.LEFT_MOUSE) {
       removePopup(closeButton);
@@ -265,7 +265,7 @@ var renderPopup = function (pin) {
 
   mapContainer.insertAdjacentElement('afterbegin', popupElement);
 
-  addCloseEvents(popupElement);
+  addCloseEvents();
 };
 
 var changeFormState = function () {
