@@ -3,4 +3,9 @@
 // renderPins(pins);
 // renderPopup(pins[0]);
 
-console.log(window.data.pins);
+var pins = window.data.getPins(8);
+
+window.map.startPage();
+window.map.initEvents(pins);
+
+// console.log(pins);

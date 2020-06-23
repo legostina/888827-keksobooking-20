@@ -3,15 +3,12 @@
 (function () {
   var mapContainer = document.querySelector('.map');
   var buttonHome = document.querySelector('.map__pin--main');
-  var formContainer = document.querySelector('.ad-form');
   var addressInput = document.querySelector('#address');
   var UserClick = {
     ENTER: 'Enter',
     ESCAPE: 'Escape',
     LEFT_MOUSE: 0
   };
-
-  var isPageActive = false;
 
   var addClickEvent = function (pinElement, pin) {
     pinElement.addEventListener('click', function (evt) {
@@ -38,27 +35,27 @@
     });
   };
 
-  var activatePage = function () {
-    isPageActive = true;
+  var activatePage = function (pins) {
+    window.form.isPageActive = true;
     mapContainer.classList.remove('map--faded');
-    formContainer.classList.remove('ad-form--disabled');
-    window.pin.renderPins(window.data.pins);
+    window.form.formContainer.classList.remove('ad-form--disabled');
+    window.pin.renderPins(pins);
     setOfferAddress();
     window.form.changeFormState();
   };
 
-  var initEvents = function () {
+  var initEvents = function (pins) {
     buttonHome.addEventListener('mousedown', function (evt) {
       if (evt.button === UserClick.LEFT_MOUSE) {
         evt.preventDefault();
-        activatePage();
+        activatePage(pins);
       }
     });
 
     buttonHome.addEventListener('keydown', function (evt) {
       if (evt.key === UserClick.ENTER) {
         evt.preventDefault();
-        activatePage();
+        activatePage(pins);
       }
     });
   };
@@ -67,7 +64,7 @@
     var x = 0;
     var y = 0;
 
-    if (isPageActive) {
+    if (window.form.isPageActive) {
       x = buttonHome.offsetLeft + buttonHome.offsetWidth / 2;
       y = buttonHome.offsetTop + buttonHome.offsetHeight + window.pin.PinSize.AFTER;
 
@@ -89,13 +86,11 @@
     window.form.checkTimes(window.form.timeinSelect);
   };
 
-  startPage();
-  initEvents();
   window.map = {
     mapContainer: mapContainer,
-    formContainer: formContainer,
-    isPageActive: isPageActive,
     addClickEvent: addClickEvent,
     addCloseEvents: addCloseEvents,
+    startPage: startPage,
+    initEvents: initEvents
   };
 })();

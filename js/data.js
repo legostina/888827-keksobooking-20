@@ -108,11 +108,9 @@
 
     return pins;
   };
-
-  var pins = getPins(8);
   window.data = {
     getDisplayPlacementType: getDisplayPlacementType,
-    pins: pins,
+    getPins: getPins,
     PlacementType: PlacementType,
   };
 })();

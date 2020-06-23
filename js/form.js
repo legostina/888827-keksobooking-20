@@ -43,11 +43,13 @@
   var priceInput = document.querySelector('#price');
   var timeinSelect = document.querySelector('#timein');
   var timeoutSelect = document.querySelector('#timeout');
+  var formContainer = document.querySelector('.ad-form');
 
+  var isPageActive = false;
   var changeFormState = function () {
     var fieldsets = document.querySelectorAll('fieldset');
     Array.from(fieldsets).forEach(function (fieldset) {
-      fieldset.disabled = !window.map.isPageActive;
+      fieldset.disabled = !isPageActive;
     });
   };
 
@@ -147,7 +149,7 @@
     }
   };
 
-  window.map.formContainer.addEventListener('change', filterChangeFieldset);
+  formContainer.addEventListener('change', filterChangeFieldset);
   window.form = {
     changeFormState: changeFormState,
     minimalType: minimalType,
@@ -156,6 +158,8 @@
     validateType: validateType,
     validatePrice: validatePrice,
     checkTimes: checkTimes,
+    isPageActive: isPageActive,
+    formContainer: formContainer,
     timeinSelect: timeinSelect
   };
 })();

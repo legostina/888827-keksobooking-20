@@ -37,7 +37,6 @@
 
   window.pin = {
     PinSize: PinSize,
-    renderPin: renderPin,
     renderPins: renderPins,
   };
 })();
