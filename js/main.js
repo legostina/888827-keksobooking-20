@@ -3,4 +3,4 @@
 // renderPins(pins);
 // renderPopup(pins[0]);
 
-console.log(pins);
+console.log(window.data.pins);
