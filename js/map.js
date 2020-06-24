@@ -17,7 +17,7 @@
   };
 
   var addCloseEvents = function () {
-    var closeButton = window.card.popupElement.querySelector('.popup__close');
+    var closeButton = window.card.getPopupElement().querySelector('.popup__close');
 
     closeButton.addEventListener('click', function (evt) {
       evt.preventDefault();
@@ -35,7 +35,8 @@
   };
 
   var activatePage = function (pins) {
-    window.form.isPageActive = true;
+    window.form.changePageActive(true);
+    window.form.changeFormValidation();
     mapContainer.classList.remove('map--faded');
     window.form.formContainer.classList.remove('ad-form--disabled');
     window.pin.renderPins(pins);
@@ -63,7 +64,7 @@
     var x = 0;
     var y = 0;
 
-    if (window.form.isPageActive) {
+    if (window.form.getIsPageActive()) {
       x = buttonHome.offsetLeft + buttonHome.offsetWidth / 2;
       y = buttonHome.offsetTop + buttonHome.offsetHeight + window.pin.PinSize.AFTER;
 

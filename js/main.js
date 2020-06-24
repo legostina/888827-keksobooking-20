@@ -5,7 +5,7 @@
 
 var pins = window.data.getPins(8);
 
-window.form.startPage();
+// window.form.changeFormValidation();
 window.map.initEvents(pins);
 
-console.log(pins);
+// console.log(pins);

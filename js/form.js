@@ -54,7 +54,15 @@
     });
   };
 
-  var startPage = function () {
+  var changePageActive = function (isActive) {
+    isPageActive = isActive;
+  };
+
+  var getIsPageActive = function () {
+    return isPageActive;
+  };
+
+  var changeFormValidation = function () {
     changeFormState();
     window.map.setOfferAddress();
     getMinimalType();
@@ -163,9 +171,10 @@
 
   formContainer.addEventListener('change', filterChangeFieldset);
   window.form = {
+    changePageActive: changePageActive,
     changeFormState: changeFormState,
-    startPage: startPage,
-    isPageActive: isPageActive,
+    changeFormValidation: changeFormValidation,
+    getIsPageActive: getIsPageActive,
     formContainer: formContainer,
     addressInput: addressInput
   };

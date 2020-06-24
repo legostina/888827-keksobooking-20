@@ -5,6 +5,10 @@
 
   var popupElement = null;
 
+  var getPopupElement = function () {
+    return popupElement;
+  };
+
   var renderPopup = function (pin) {
     removePopup();
     popupElement = mapCard.cloneNode(true);
@@ -57,6 +61,6 @@
   window.card = {
     renderPopup: renderPopup,
     removePopup: removePopup,
-    popupElement: popupElement,
+    getPopupElement: getPopupElement,
   };
 })();
