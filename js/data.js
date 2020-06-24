@@ -111,6 +111,6 @@
   window.data = {
     getDisplayPlacementType: getDisplayPlacementType,
     getPins: getPins,
-    PlacementType: PlacementType,
+    placementType: PlacementType,
   };
 })();

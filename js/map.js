@@ -3,7 +3,6 @@
 (function () {
   var mapContainer = document.querySelector('.map');
   var buttonHome = document.querySelector('.map__pin--main');
-  var addressInput = document.querySelector('#address');
   var UserClick = {
     ENTER: 'Enter',
     ESCAPE: 'Escape',
@@ -72,25 +71,14 @@
       x = buttonHome.offsetLeft + buttonHome.offsetWidth / 2;
       y = buttonHome.offsetTop + buttonHome.offsetHeight / 2;
     }
-    addressInput.value = x + ', ' + y;
-  };
-
-  var startPage = function () {
-    window.form.changeFormState();
-    setOfferAddress();
-    window.form.minimalType();
-    window.form.validateCapacity();
-    window.form.validateTitle();
-    window.form.validateType();
-    window.form.validatePrice();
-    window.form.checkTimes(window.form.timeinSelect);
+    window.form.addressInput.value = x + ', ' + y;
   };
 
   window.map = {
     mapContainer: mapContainer,
     addClickEvent: addClickEvent,
     addCloseEvents: addCloseEvents,
-    startPage: startPage,
+    setOfferAddress: setOfferAddress,
     initEvents: initEvents
   };
 })();

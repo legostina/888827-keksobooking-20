@@ -5,7 +5,7 @@
 
 var pins = window.data.getPins(8);
 
-window.map.startPage();
+window.form.startPage();
 window.map.initEvents(pins);
 
-// console.log(pins);
+console.log(pins);

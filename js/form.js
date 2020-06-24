@@ -44,6 +44,7 @@
   var timeinSelect = document.querySelector('#timein');
   var timeoutSelect = document.querySelector('#timeout');
   var formContainer = document.querySelector('.ad-form');
+  var addressInput = document.querySelector('#address');
 
   var isPageActive = false;
   var changeFormState = function () {
@@ -51,6 +52,17 @@
     Array.from(fieldsets).forEach(function (fieldset) {
       fieldset.disabled = !isPageActive;
     });
+  };
+
+  var startPage = function () {
+    changeFormState();
+    window.map.setOfferAddress();
+    getMinimalType();
+    validateCapacity();
+    validateTitle();
+    validateType();
+    validatePrice();
+    checkTimes(timeinSelect);
   };
 
   var validateCapacity = function () {
@@ -88,13 +100,13 @@
     var valueType = typeInput.value;
     var valuePrice = priceInput.value;
 
-    if (valueType === window.data.PlacementType.BUNGALO && valuePrice < PriceMinimal.MIN_BUNGALO) {
+    if (valueType === window.data.placementType.BUNGALO && valuePrice < PriceMinimal.MIN_BUNGALO) {
       priceInput.setCustomValidity('Минимальная цена за ночь 0');
-    } else if (valueType === window.data.PlacementType.FLAT && valuePrice < PriceMinimal.MIN_FLAT) {
+    } else if (valueType === window.data.placementType.FLAT && valuePrice < PriceMinimal.MIN_FLAT) {
       priceInput.setCustomValidity('Минимальная цена за ночь 1 000');
-    } else if (valueType === window.data.PlacementType.HOUSE && valuePrice < PriceMinimal.MIN_HOUSE) {
+    } else if (valueType === window.data.placementType.HOUSE && valuePrice < PriceMinimal.MIN_HOUSE) {
       priceInput.setCustomValidity('Минимальная цена 5 000');
-    } else if (valueType === window.data.PlacementType.PALACE && valuePrice < PriceMinimal.MIN_PALACE) {
+    } else if (valueType === window.data.placementType.PALACE && valuePrice < PriceMinimal.MIN_PALACE) {
       priceInput.setCustomValidity('Минимальная цена 10 000');
     } else {
       priceInput.setCustomValidity('');
@@ -109,14 +121,14 @@
     }
   };
 
-  var minimalType = function () {
-    if (typeInput.value === window.data.PlacementType.BUNGALO) {
+  var getMinimalType = function () {
+    if (typeInput.value === window.data.placementType.BUNGALO) {
       priceInput.placeholder = PricePlaceholder.ZER0;
       priceInput.min = PriceMinValue.ZER0;
-    } else if (typeInput.value === window.data.PlacementType.FLAT) {
+    } else if (typeInput.value === window.data.placementType.FLAT) {
       priceInput.placeholder = PricePlaceholder.THOUSAND;
       priceInput.min = PriceMinValue.THOUSAND;
-    } else if (typeInput.value === window.data.PlacementType.HOUSE) {
+    } else if (typeInput.value === window.data.placementType.HOUSE) {
       priceInput.placeholder = PricePlaceholder.FIVE;
       priceInput.min = PriceMinValue.FIVE;
     } else {
@@ -142,7 +154,7 @@
     } else if (evt.target.id === titleInput.id) {
       validateTitle();
     } else if (evt.target.id === typeInput.id || evt.target.id === priceInput.id) {
-      minimalType();
+      getMinimalType();
       validateType();
     } else if (evt.target.id === timeinSelect.id || evt.target.id === timeoutSelect.id) {
       checkTimes(evt.target);
@@ -152,14 +164,9 @@
   formContainer.addEventListener('change', filterChangeFieldset);
   window.form = {
     changeFormState: changeFormState,
-    minimalType: minimalType,
-    validateCapacity: validateCapacity,
-    validateTitle: validateTitle,
-    validateType: validateType,
-    validatePrice: validatePrice,
-    checkTimes: checkTimes,
+    startPage: startPage,
     isPageActive: isPageActive,
     formContainer: formContainer,
-    timeinSelect: timeinSelect
+    addressInput: addressInput
   };
 })();
