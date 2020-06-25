@@ -80,6 +80,7 @@
     addClickEvent: addClickEvent,
     addCloseEvents: addCloseEvents,
     setOfferAddress: setOfferAddress,
-    initEvents: initEvents
+    initEvents: initEvents,
+    buttonHome: buttonHome
   };
 })();

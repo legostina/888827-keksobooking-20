@@ -38,5 +38,6 @@
   window.pin = {
     PinSize: PinSize,
     renderPins: renderPins,
+    mapPinsContainer: mapPinsContainer,
   };
 })();

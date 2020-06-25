@@ -8,4 +8,4 @@ var pins = window.data.getPins(8);
 // window.form.changeFormValidation();
 window.map.initEvents(pins);
 
-// console.log(pins);
+console.log(pins);
