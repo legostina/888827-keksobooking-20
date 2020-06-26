@@ -112,5 +112,6 @@
     getDisplayPlacementType: getDisplayPlacementType,
     getPins: getPins,
     placementType: PlacementType,
+    LocationVertical: LocationVertical,
   };
 })();

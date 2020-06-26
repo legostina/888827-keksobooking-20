@@ -11,6 +11,7 @@
     WIDTH: 65,
     HEIGHT: 65,
     AFTER: 22,
+    HALF_WIDTH: 32.5,
   };
 
   var pinButton = document.querySelector('#pin').content.querySelector('.map__pin');
