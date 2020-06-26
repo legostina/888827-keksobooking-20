@@ -2,7 +2,7 @@
 
 (function () {
   var mapContainer = document.querySelector('.map');
-  var buttonHome = document.querySelector('.map__pin--main');
+  var buttonHome = window.card.mapPinMain;
   var UserClick = {
     ENTER: 'Enter',
     ESCAPE: 'Escape',

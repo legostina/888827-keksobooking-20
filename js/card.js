@@ -109,6 +109,8 @@
 
         mapPinMain.style.left = left + 'px';
         mapPinMain.style.top = top + 'px';
+
+        window.map.setOfferAddress();
       };
 
       var onMouseUp = function (upEvt) {
@@ -126,6 +128,7 @@
     renderPopup: renderPopup,
     removePopup: removePopup,
     getPopupElement: getPopupElement,
-    initMapPinEvent: initMapPinEvent
+    initMapPinEvent: initMapPinEvent,
+    mapPinMain: mapPinMain
   };
 })();
