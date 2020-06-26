@@ -2,22 +2,28 @@
 
 (function () {
   var mapCard = document.querySelector('#card').content.querySelector('.map__card');
-  var mapPinMain = document.querySelector('.map__pin--main');
-  var mapOverlay = document.querySelector('.map__overlay');
-
-  var minMoveLeft = 0;
-
-  var LimitsMoving = {
-    MIN_LEFT: minMoveLeft - window.pin.PinSizeMain.HALF_WIDTH,
-    MAX_RIGHT: mapOverlay.getBoundingClientRect().width - window.pin.PinSizeMain.HALF_WIDTH,
-    MIN_TOP: window.data.LocationVertical.MIN - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
-    MAX_BOTTOM: window.data.LocationVertical.MAX - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
-  };
-
   var popupElement = null;
 
   var getPopupElement = function () {
     return popupElement;
+  };
+
+  var addCloseEvents = function () {
+    var closeButton = window.card.getPopupElement().querySelector('.popup__close');
+
+    closeButton.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      if (evt.button === window.map.UserClick.LEFT_MOUSE) {
+        window.card.removePopup(closeButton);
+      }
+    });
+
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === window.map.UserClick.ESCAPE) {
+        evt.preventDefault();
+        window.card.removePopup();
+      }
+    });
   };
 
   var renderPopup = function (pin) {
@@ -44,7 +50,7 @@
 
     window.map.mapContainer.insertAdjacentElement('afterbegin', popupElement);
 
-    window.map.addCloseEvents();
+    addCloseEvents();
   };
 
   var renderPhotos = function (popupPhotosContainer, photos) {
@@ -70,65 +76,9 @@
     }
   };
 
-  var initMapPinEvent = function () {
-    mapPinMain.addEventListener('mousedown', function (evt) {
-      evt.preventDefault();
-
-      var startCoords = {
-        x: evt.clientX,
-        y: evt.clientY
-      };
-
-      var onMouseMove = function (moveEvt) {
-        moveEvt.preventDefault();
-
-        var shift = {
-          x: startCoords.x - moveEvt.clientX,
-          y: startCoords.y - moveEvt.clientY
-        };
-
-        startCoords = {
-          x: moveEvt.clientX,
-          y: moveEvt.clientY
-        };
-
-        var left = mapPinMain.offsetLeft - shift.x;
-        var top = mapPinMain.offsetTop - shift.y;
-
-        if (left > LimitsMoving.MAX_RIGHT) {
-          left = LimitsMoving.MAX_RIGHT;
-        } else if (left < LimitsMoving.MIN_LEFT) {
-          left = LimitsMoving.MIN_LEFT;
-        }
-
-        if (top > LimitsMoving.MAX_BOTTOM) {
-          top = LimitsMoving.MAX_BOTTOM;
-        } else if (top < LimitsMoving.MIN_TOP) {
-          top = LimitsMoving.MIN_TOP;
-        }
-
-        mapPinMain.style.left = left + 'px';
-        mapPinMain.style.top = top + 'px';
-
-        window.map.setOfferAddress();
-      };
-
-      var onMouseUp = function (upEvt) {
-        upEvt.preventDefault();
-
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-      };
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
-    });
-  };
-
   window.card = {
     renderPopup: renderPopup,
     removePopup: removePopup,
-    getPopupElement: getPopupElement,
-    initMapPinEvent: initMapPinEvent,
-    mapPinMain: mapPinMain
+    getPopupElement: getPopupElement
   };
 })();

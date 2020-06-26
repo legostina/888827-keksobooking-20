@@ -39,7 +39,7 @@
       fragment.appendChild(pinElement);
 
       pinElement.tabIndex = i + 1;
-      window.map.addClickEvent(pinElement, pin);
+      window.card.addClickEvent(pinElement, pin);
     }
     mapPinsContainer.appendChild(fragment);
   };
