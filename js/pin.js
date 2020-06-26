@@ -7,6 +7,12 @@
     AFTER: 22,
   };
 
+  var PinSizeMain = {
+    WIDTH: 65,
+    HEIGHT: 65,
+    AFTER: 22,
+  };
+
   var pinButton = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinsContainer = document.querySelector('.map__pins');
 
@@ -37,6 +43,7 @@
 
   window.pin = {
     PinSize: PinSize,
+    PinSizeMain: PinSizeMain,
     renderPins: renderPins,
     mapPinsContainer: mapPinsContainer,
   };
