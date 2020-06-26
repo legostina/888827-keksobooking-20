@@ -65,14 +65,14 @@
     var y = 0;
 
     if (window.form.getIsPageActive()) {
-      x = buttonHome.offsetLeft + buttonHome.offsetWidth / 2;
-      y = buttonHome.offsetTop + buttonHome.offsetHeight + window.pin.PinSize.AFTER;
+      x = buttonHome.offsetLeft + window.pin.PinSizeMain.HALF_WIDTH;
+      y = buttonHome.offsetTop + window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER;
 
     } else {
-      x = buttonHome.offsetLeft + buttonHome.offsetWidth / 2;
-      y = buttonHome.offsetTop + buttonHome.offsetHeight / 2;
+      x = buttonHome.offsetLeft + window.pin.PinSizeMain.HALF_WIDTH;
+      y = buttonHome.offsetTop + window.pin.PinSizeMain.HALF_HEIGHT;
     }
-    window.form.addressInput.value = x + ', ' + y;
+    window.form.addressInput.value = Math.floor(x) + ', ' + y;
   };
 
   window.map = {

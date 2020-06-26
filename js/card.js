@@ -8,9 +8,9 @@
   var minMoveLeft = 0;
 
   var LimitsMoving = {
-    MAX_LEFT: minMoveLeft - window.pin.PinSizeMain.HALF_WIDTH,
+    MIN_LEFT: minMoveLeft - window.pin.PinSizeMain.HALF_WIDTH,
     MAX_RIGHT: mapOverlay.getBoundingClientRect().width - window.pin.PinSizeMain.HALF_WIDTH,
-    MAX_TOP: window.data.LocationVertical.MIN - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
+    MIN_TOP: window.data.LocationVertical.MIN - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
     MAX_BOTTOM: window.data.LocationVertical.MAX - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
   };
 
@@ -97,14 +97,14 @@
 
         if (left > LimitsMoving.MAX_RIGHT) {
           left = LimitsMoving.MAX_RIGHT;
-        } else if (left < LimitsMoving.MAX_LEFT) {
-          left = LimitsMoving.MAX_LEFT;
+        } else if (left < LimitsMoving.MIN_LEFT) {
+          left = LimitsMoving.MIN_LEFT;
         }
 
         if (top > LimitsMoving.MAX_BOTTOM) {
           top = LimitsMoving.MAX_BOTTOM;
-        } else if (top < LimitsMoving.MAX_TOP) {
-          top = LimitsMoving.MAX_TOP;
+        } else if (top < LimitsMoving.MIN_TOP) {
+          top = LimitsMoving.MIN_TOP;
         }
 
         mapPinMain.style.left = left + 'px';

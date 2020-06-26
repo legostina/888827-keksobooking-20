@@ -5,6 +5,7 @@
     WIDTH: 50,
     HEIGHT: 70,
     AFTER: 22,
+    HALF_WIDTH: 25
   };
 
   var PinSizeMain = {
@@ -12,6 +13,7 @@
     HEIGHT: 65,
     AFTER: 22,
     HALF_WIDTH: 32.5,
+    HALF_HEIGHT: 32.5
   };
 
   var pinButton = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -20,7 +22,7 @@
   var renderPin = function (pin) {
     var buttonElement = pinButton.cloneNode(true);
 
-    buttonElement.style.top = pin.location.x - PinSize.WIDTH / 2 + 'px';
+    buttonElement.style.top = pin.location.x - PinSize.HALF_WIDTH + 'px';
     buttonElement.style.left = pin.location.y - PinSize.HEIGHT + 'px';
 
     buttonElement.querySelector('img').src = pin.author.avatar;
