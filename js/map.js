@@ -29,7 +29,7 @@
 
   var initEvents = function (pins) {
     mapPinMain.addEventListener('mousedown', function (evt) {
-      if (evt.button === UserClick.LEFT_MOUSE) {
+      if (evt.button === UserClick.LEFT_MOUSE && !window.form.isPageActive) {
         evt.preventDefault();
         activatePage(pins);
       }
@@ -86,7 +86,7 @@
     });
 
     mapPinMain.addEventListener('keydown', function (evt) {
-      if (evt.key === UserClick.ENTER) {
+      if (evt.key === UserClick.ENTER && !window.form.isPageActive) {
         evt.preventDefault();
         activatePage(pins);
       }

@@ -176,6 +176,7 @@
     changeFormValidation: changeFormValidation,
     getIsPageActive: getIsPageActive,
     formContainer: formContainer,
-    addressInput: addressInput
+    addressInput: addressInput,
+    isPageActive: isPageActive
   };
 })();
