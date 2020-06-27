@@ -8,6 +8,13 @@
     return popupElement;
   };
 
+  var addClickEvent = function (pinElement, pin) {
+    pinElement.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      window.card.renderPopup(pin);
+    });
+  };
+
   var addCloseEvents = function () {
     var closeButton = window.card.getPopupElement().querySelector('.popup__close');
 
@@ -79,6 +86,7 @@
   window.card = {
     renderPopup: renderPopup,
     removePopup: removePopup,
-    getPopupElement: getPopupElement
+    getPopupElement: getPopupElement,
+    addClickEvent: addClickEvent,
   };
 })();

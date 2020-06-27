@@ -17,13 +17,6 @@
     MAX_BOTTOM: window.data.LocationVertical.MAX - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
   };
 
-  var addClickEvent = function (pinElement, pin) {
-    pinElement.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      window.card.renderPopup(pin);
-    });
-  };
-
   var activatePage = function (pins) {
     window.form.changePageActive(true);
     window.form.changeFormValidation();
@@ -40,33 +33,7 @@
         evt.preventDefault();
         activatePage(pins);
       }
-    });
 
-    mapPinMain.addEventListener('keydown', function (evt) {
-      if (evt.key === UserClick.ENTER) {
-        evt.preventDefault();
-        activatePage(pins);
-      }
-    });
-  };
-
-  var setOfferAddress = function () {
-    var x = 0;
-    var y = 0;
-
-    if (window.form.getIsPageActive()) {
-      x = mapPinMain.offsetLeft + window.pin.PinSizeMain.HALF_WIDTH;
-      y = mapPinMain.offsetTop + window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER;
-
-    } else {
-      x = mapPinMain.offsetLeft + window.pin.PinSizeMain.HALF_WIDTH;
-      y = mapPinMain.offsetTop + window.pin.PinSizeMain.HALF_HEIGHT;
-    }
-    window.form.addressInput.value = Math.floor(x) + ', ' + y;
-  };
-
-  var initMapPinEvent = function () {
-    mapPinMain.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
 
       var startCoords = {
@@ -117,13 +84,34 @@
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     });
+
+    mapPinMain.addEventListener('keydown', function (evt) {
+      if (evt.key === UserClick.ENTER) {
+        evt.preventDefault();
+        activatePage(pins);
+      }
+    });
   };
+
+  var setOfferAddress = function () {
+    var x = 0;
+    var y = 0;
+
+    if (window.form.getIsPageActive()) {
+      x = mapPinMain.offsetLeft + window.pin.PinSizeMain.HALF_WIDTH;
+      y = mapPinMain.offsetTop + window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER;
+
+    } else {
+      x = mapPinMain.offsetLeft + window.pin.PinSizeMain.HALF_WIDTH;
+      y = mapPinMain.offsetTop + window.pin.PinSizeMain.HALF_HEIGHT;
+    }
+    window.form.addressInput.value = Math.floor(x) + ', ' + y;
+  };
+
   window.map = {
     mapContainer: mapContainer,
-    addClickEvent: addClickEvent,
     setOfferAddress: setOfferAddress,
     initEvents: initEvents,
-    initMapPinEvent: initMapPinEvent,
     UserClick: UserClick
   };
 })();
