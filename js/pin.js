@@ -5,6 +5,15 @@
     WIDTH: 50,
     HEIGHT: 70,
     AFTER: 22,
+    HALF_WIDTH: 25
+  };
+
+  var PinSizeMain = {
+    WIDTH: 65,
+    HEIGHT: 65,
+    AFTER: 22,
+    HALF_WIDTH: 32.5,
+    HALF_HEIGHT: 32.5
   };
 
   var pinButton = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -13,7 +22,7 @@
   var renderPin = function (pin) {
     var buttonElement = pinButton.cloneNode(true);
 
-    buttonElement.style.top = pin.location.x - PinSize.WIDTH / 2 + 'px';
+    buttonElement.style.top = pin.location.x - PinSize.HALF_WIDTH + 'px';
     buttonElement.style.left = pin.location.y - PinSize.HEIGHT + 'px';
 
     buttonElement.querySelector('img').src = pin.author.avatar;
@@ -30,13 +39,15 @@
       fragment.appendChild(pinElement);
 
       pinElement.tabIndex = i + 1;
-      window.map.addClickEvent(pinElement, pin);
+      window.card.addClickEvent(pinElement, pin);
     }
     mapPinsContainer.appendChild(fragment);
   };
 
   window.pin = {
     PinSize: PinSize,
+    PinSizeMain: PinSizeMain,
     renderPins: renderPins,
+    mapPinsContainer: mapPinsContainer,
   };
 })();

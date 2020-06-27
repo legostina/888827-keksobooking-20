@@ -2,11 +2,35 @@
 
 (function () {
   var mapCard = document.querySelector('#card').content.querySelector('.map__card');
-
   var popupElement = null;
 
   var getPopupElement = function () {
     return popupElement;
+  };
+
+  var addClickEvent = function (pinElement, pin) {
+    pinElement.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      window.card.renderPopup(pin);
+    });
+  };
+
+  var addCloseEvents = function () {
+    var closeButton = window.card.getPopupElement().querySelector('.popup__close');
+
+    closeButton.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      if (evt.button === window.map.UserClick.LEFT_MOUSE) {
+        window.card.removePopup(closeButton);
+      }
+    });
+
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === window.map.UserClick.ESCAPE) {
+        evt.preventDefault();
+        window.card.removePopup();
+      }
+    });
   };
 
   var renderPopup = function (pin) {
@@ -33,7 +57,7 @@
 
     window.map.mapContainer.insertAdjacentElement('afterbegin', popupElement);
 
-    window.map.addCloseEvents();
+    addCloseEvents();
   };
 
   var renderPhotos = function (popupPhotosContainer, photos) {
@@ -58,9 +82,11 @@
       popupElement.remove();
     }
   };
+
   window.card = {
     renderPopup: renderPopup,
     removePopup: removePopup,
     getPopupElement: getPopupElement,
+    addClickEvent: addClickEvent,
   };
 })();
