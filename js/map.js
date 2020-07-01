@@ -13,25 +13,25 @@
   var LimitsMoving = {
     MIN_LEFT: MIN_MOVE_LEFT - window.pin.PinSizeMain.HALF_WIDTH,
     MAX_RIGHT: mapOverlay.getBoundingClientRect().width - window.pin.PinSizeMain.HALF_WIDTH,
-    MIN_TOP: window.data.LocationVertical.MIN - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
-    MAX_BOTTOM: window.data.LocationVertical.MAX - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
+    MIN_TOP: window.util.LocationVertical.MIN - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
+    MAX_BOTTOM: window.util.LocationVertical.MAX - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
   };
 
-  var activatePage = function (pins) {
+  var activatePage = function () {
     window.form.changePageActive(true);
     window.form.changeFormValidation();
     mapContainer.classList.remove('map--faded');
     window.form.formContainer.classList.remove('ad-form--disabled');
-    window.pin.renderPins(pins);
+    window.backend.load(window.pin.renderPins);
     setOfferAddress();
     window.form.changeFormState();
   };
 
-  var initEvents = function (pins) {
+  var initEvents = function () {
     mapPinMain.addEventListener('mousedown', function (evt) {
       if (evt.button === UserClick.LEFT_MOUSE && !window.form.isPageActive) {
         evt.preventDefault();
-        activatePage(pins);
+        activatePage();
       }
 
       evt.preventDefault();
@@ -88,7 +88,7 @@
     mapPinMain.addEventListener('keydown', function (evt) {
       if (evt.key === UserClick.ENTER && !window.form.isPageActive) {
         evt.preventDefault();
-        activatePage(pins);
+        activatePage();
       }
     });
   };
