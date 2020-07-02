@@ -105,7 +105,7 @@
       x = mapPinMain.offsetLeft + window.pin.PinSizeMain.HALF_WIDTH;
       y = mapPinMain.offsetTop + window.pin.PinSizeMain.HALF_HEIGHT;
     }
-    window.form.addressInput.value = Math.floor(x) + ', ' + y;
+    window.form.addressInput.value = Math.floor(x) + ', ' + Math.round(y);
   };
 
   window.map = {

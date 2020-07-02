@@ -31,9 +31,9 @@
     return buttonElement;
   };
 
-  var renderPins = function (pins, index) {
+  var renderPins = function (pins) {
     var fragment = document.createDocumentFragment();
-    pins.forEach(function (pin) {
+    pins.forEach(function (pin, index) {
       var pinElement = renderPin(pin);
       fragment.appendChild(pinElement);
 
