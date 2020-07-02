@@ -2,7 +2,9 @@
 
 (function () {
   var onError = function (message) {
+    /* eslint-disable */
     console.error(message);
+    /* eslint-enable */
   };
 
   var load = function (onSuccess) {

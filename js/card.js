@@ -67,13 +67,11 @@
 
     photoTemplate.remove();
 
-    for (var i = 0; i < photos.length; i++) {
+    photos.forEach(function (photo) {
       var photoElementNew = photoElement.cloneNode(true);
-
-      photoElementNew.src = photos[i];
+      photoElementNew.src = photo;
       fragment.appendChild(photoElementNew);
-    }
-
+    });
     popupPhotosContainer.appendChild(fragment);
   };
 
