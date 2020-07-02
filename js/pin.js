@@ -22,8 +22,8 @@
   var renderPin = function (pin) {
     var buttonElement = pinButton.cloneNode(true);
 
-    buttonElement.style.top = pin.location.x - PinSize.HALF_WIDTH + 'px';
-    buttonElement.style.left = pin.location.y - PinSize.HEIGHT + 'px';
+    buttonElement.style.top = pin.location.y - PinSize.HALF_WIDTH + 'px';
+    buttonElement.style.left = pin.location.x - PinSize.HEIGHT + 'px';
 
     buttonElement.querySelector('img').src = pin.author.avatar;
     buttonElement.querySelector('img').alt = pin.offer.title;
@@ -33,14 +33,13 @@
 
   var renderPins = function (pins) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < pins.length; i++) {
-      var pin = pins[i];
+    pins.forEach(function (pin, index) {
       var pinElement = renderPin(pin);
       fragment.appendChild(pinElement);
 
-      pinElement.tabIndex = i + 1;
+      pinElement.tabIndex = index + 1;
       window.card.addClickEvent(pinElement, pin);
-    }
+    });
     mapPinsContainer.appendChild(fragment);
   };
 

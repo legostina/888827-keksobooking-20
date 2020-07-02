@@ -108,13 +108,13 @@
     var valueType = typeInput.value;
     var valuePrice = priceInput.value;
 
-    if (valueType === window.data.placementType.BUNGALO && valuePrice < PriceMinimal.MIN_BUNGALO) {
+    if (valueType === window.util.placementType.BUNGALO && valuePrice < PriceMinimal.MIN_BUNGALO) {
       priceInput.setCustomValidity('Минимальная цена за ночь 0');
-    } else if (valueType === window.data.placementType.FLAT && valuePrice < PriceMinimal.MIN_FLAT) {
+    } else if (valueType === window.util.placementType.FLAT && valuePrice < PriceMinimal.MIN_FLAT) {
       priceInput.setCustomValidity('Минимальная цена за ночь 1 000');
-    } else if (valueType === window.data.placementType.HOUSE && valuePrice < PriceMinimal.MIN_HOUSE) {
+    } else if (valueType === window.util.placementType.HOUSE && valuePrice < PriceMinimal.MIN_HOUSE) {
       priceInput.setCustomValidity('Минимальная цена 5 000');
-    } else if (valueType === window.data.placementType.PALACE && valuePrice < PriceMinimal.MIN_PALACE) {
+    } else if (valueType === window.util.placementType.PALACE && valuePrice < PriceMinimal.MIN_PALACE) {
       priceInput.setCustomValidity('Минимальная цена 10 000');
     } else {
       priceInput.setCustomValidity('');
@@ -130,13 +130,13 @@
   };
 
   var getMinimalType = function () {
-    if (typeInput.value === window.data.placementType.BUNGALO) {
+    if (typeInput.value === window.util.placementType.BUNGALO) {
       priceInput.placeholder = PricePlaceholder.ZER0;
       priceInput.min = PriceMinValue.ZER0;
-    } else if (typeInput.value === window.data.placementType.FLAT) {
+    } else if (typeInput.value === window.util.placementType.FLAT) {
       priceInput.placeholder = PricePlaceholder.THOUSAND;
       priceInput.min = PriceMinValue.THOUSAND;
-    } else if (typeInput.value === window.data.placementType.HOUSE) {
+    } else if (typeInput.value === window.util.placementType.HOUSE) {
       priceInput.placeholder = PricePlaceholder.FIVE;
       priceInput.min = PriceMinValue.FIVE;
     } else {

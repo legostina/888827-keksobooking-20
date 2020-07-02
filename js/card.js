@@ -40,7 +40,7 @@
     popupElement.querySelector('.popup__title').textContent = pin.offer.title;
     popupElement.querySelector('.popup__text--address').textContent = pin.offer.address;
     popupElement.querySelector('.popup__text--price').textContent = pin.offer.price + '₽/ночь';
-    popupElement.querySelector('.popup__type').textContent = window.data.getDisplayPlacementType(pin.offer.type);
+    popupElement.querySelector('.popup__type').textContent = window.util.getDisplayPlacementType(pin.offer.type);
     popupElement.querySelector('.popup__text--capacity').textContent = pin.offer.rooms + ' комнаты для ' + pin.offer.guests + ' гостей';
     popupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + pin.offer.checkin + ', выезд до ' + pin.offer.checkout;
     popupElement.querySelector('.popup__features').textContent = pin.offer.features.join(', ');
@@ -67,13 +67,11 @@
 
     photoTemplate.remove();
 
-    for (var i = 0; i < photos.length; i++) {
+    photos.forEach(function (photo) {
       var photoElementNew = photoElement.cloneNode(true);
-
-      photoElementNew.src = photos[i];
+      photoElementNew.src = photo;
       fragment.appendChild(photoElementNew);
-    }
-
+    });
     popupPhotosContainer.appendChild(fragment);
   };
 
