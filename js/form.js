@@ -171,17 +171,6 @@
 
   formContainer.addEventListener('change', filterChangeFieldset);
 
-  var successHandler = function (pins) {
-    var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < pins.length; i++) {
-      fragment.appendChild(window.pin.renderPins(pins[i]));
-    }
-    window.pin.pinElement.appendChild(fragment);
-
-    window.map.mapPin.querySelector('.map-pin').classList.remove('hidden');
-  };
-
   var errorHandler = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
@@ -194,15 +183,25 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  window.load(successHandler, errorHandler);
+  var successHandler = function () {
+    window.map.deactivatePage();
+  };
 
-  var submitHandler = function (evt) {
-    evt.preventDefault();
-    window.upload(new FormData(formContainer), function (response) {
-      window.map.mapPin.classList.remove('map-pin');
+  var resetClickHandler = function () {
+    var resetForm = document.querySelector('.ad-form__reset');
+    resetForm.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      if (evt.button === window.map.UserClick.LEFT_MOUSE) {
+        window.map.deactivatePage();
+      }
     });
   };
-  formContainer.addEventListener('submit', submitHandler);
+
+  var formSubmitHandler = function (evt) {
+    evt.preventDefault();
+    window.backend.update(new FormData(formContainer), successHandler, errorHandler);
+  };
+  formContainer.addEventListener('submit', formSubmitHandler, resetClickHandler);
   window.form = {
     changePageActive: changePageActive,
     changeFormState: changeFormState,
