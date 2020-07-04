@@ -170,6 +170,39 @@
   };
 
   formContainer.addEventListener('change', filterChangeFieldset);
+
+  var successHandler = function (pins) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < pins.length; i++) {
+      fragment.appendChild(window.pin.renderPins(pins[i]));
+    }
+    window.pin.pinElement.appendChild(fragment);
+
+    window.map.mapPin.querySelector('.map-pin').classList.remove('hidden');
+  };
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.load(successHandler, errorHandler);
+
+  var submitHandler = function (evt) {
+    evt.preventDefault();
+    window.upload(new FormData(formContainer), function (response) {
+      window.map.mapPin.classList.remove('map-pin');
+    });
+  };
+  formContainer.addEventListener('submit', submitHandler);
   window.form = {
     changePageActive: changePageActive,
     changeFormState: changeFormState,

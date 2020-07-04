@@ -3,6 +3,7 @@
 (function () {
   var mapContainer = document.querySelector('.map');
   var mapOverlay = document.querySelector('.map__overlay');
+  var mapPin = document.querySelector('.map-pin');
   var mapPinMain = document.querySelector('.map__pin--main');
   var UserClick = {
     ENTER: 'Enter',
@@ -25,6 +26,11 @@
     window.backend.load(window.pin.renderPins);
     setOfferAddress();
     window.form.changeFormState();
+  };
+
+  var deactivatePage = function () {
+    window.map.mapContainer.classList.add('map--faded');
+    window.form.formContainer.classList.add('ad-form--disabled');
   };
 
   var initEvents = function () {
@@ -110,6 +116,8 @@
 
   window.map = {
     mapContainer: mapContainer,
+    mapPin: mapPin,
+    deactivatePage: deactivatePage,
     setOfferAddress: setOfferAddress,
     initEvents: initEvents,
     UserClick: UserClick
