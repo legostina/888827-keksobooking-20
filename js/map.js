@@ -11,7 +11,7 @@
     LEFT_MOUSE: 0
   };
   var PinMainDefault = {
-    LEFT: 970,
+    LEFT: 570,
     TOP: 375
   };
   var MIN_MOVE_LEFT = 0;
@@ -36,14 +36,13 @@
     window.form.changePageActive(false);
     window.map.mapContainer.classList.add('map--faded');
     window.form.formContainer.classList.add('ad-form--disabled');
-    mapPin.classList.remove('map__pin');
     restoreDefaultPosition();
     setOfferAddress();
   };
 
   var restoreDefaultPosition = function () {
-    mapPinMain.style.top = PinMainDefault.TOP;
-    mapPinMain.style.left = PinMainDefault.LEFT;
+    mapPinMain.style.top = PinMainDefault.TOP + 'px';
+    mapPinMain.style.left = PinMainDefault.LEFT + 'px';
   };
 
   var initEvents = function () {
@@ -132,6 +131,7 @@
     deactivatePage: deactivatePage,
     setOfferAddress: setOfferAddress,
     initEvents: initEvents,
-    UserClick: UserClick
+    UserClick: UserClick,
+    restoreDefaultPosition: restoreDefaultPosition
   };
 })();

@@ -44,9 +44,9 @@
   };
 
   var deletePins = function (pins) {
-    pins.forEach(function (pin) {
-      pin.remove();
-    });
+    // pins.forEach(function (pin) {
+    //   pin.remove();
+    // });
   };
 
   window.pin = {

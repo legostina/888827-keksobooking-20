@@ -54,6 +54,13 @@
     });
   };
 
+  var defaultFormState = function () {
+    var fieldsets = document.querySelectorAll('fieldset');
+    Array.from(fieldsets).forEach(function (fieldset) {
+      fieldset.disabled = isPageActive;
+    });
+  };
+
   var changePageActive = function (isActive) {
     isPageActive = isActive;
   };
@@ -184,7 +191,10 @@
   };
 
   var successHandler = function () {
-    window.map.deletePins();
+    formContainer.reset();
+    defaultFormState();
+    window.pin.deletePins();
+    window.map.restoreDefaultPosition();
     window.map.deactivatePage();
   };
 
@@ -192,7 +202,10 @@
     var resetButton = document.querySelector('.ad-form__reset');
     resetButton.addEventListener('click', function (evt) {
       evt.preventDefault();
-      window.map.deletePins();
+      defaultFormState();
+      formContainer.reset();
+      window.pin.deletePins();
+      window.map.restoreDefaultPosition();
       window.map.deactivatePage();
     });
   };
