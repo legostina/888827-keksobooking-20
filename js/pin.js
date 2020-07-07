@@ -43,10 +43,17 @@
     mapPinsContainer.appendChild(fragment);
   };
 
+  var deletePins = function (pins) {
+    pins.forEach(function (pin) {
+      pin.remove();
+    });
+  };
+
   window.pin = {
     PinSize: PinSize,
     PinSizeMain: PinSizeMain,
     renderPins: renderPins,
     mapPinsContainer: mapPinsContainer,
+    deletePins: deletePins
   };
 })();

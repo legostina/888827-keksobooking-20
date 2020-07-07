@@ -184,16 +184,16 @@
   };
 
   var successHandler = function () {
+    window.map.deletePins();
     window.map.deactivatePage();
   };
 
-  var resetClickHandler = function () {
-    var resetForm = document.querySelector('.ad-form__reset');
-    resetForm.addEventListener('click', function (evt) {
+  var addResetClickEvent = function () {
+    var resetButton = document.querySelector('.ad-form__reset');
+    resetButton.addEventListener('click', function (evt) {
       evt.preventDefault();
-      if (evt.button === window.map.UserClick.LEFT_MOUSE) {
-        window.map.deactivatePage();
-      }
+      window.map.deletePins();
+      window.map.deactivatePage();
     });
   };
 
@@ -201,7 +201,7 @@
     evt.preventDefault();
     window.backend.update(new FormData(formContainer), successHandler, errorHandler);
   };
-  formContainer.addEventListener('submit', formSubmitHandler, resetClickHandler);
+  formContainer.addEventListener('submit', formSubmitHandler, addResetClickEvent);
   window.form = {
     changePageActive: changePageActive,
     changeFormState: changeFormState,
