@@ -47,7 +47,11 @@
   var resetButton = document.querySelector('.ad-form__reset');
   var mainContainer = document.querySelector('main');
   var errorWindow = document.querySelector('#error').content.querySelector('.error');
+  var buttonError = document.querySelector('#error').content.querySelector('.error__button');
   var successWindow = document.querySelector('#success').content.querySelector('.success');
+
+  var successElement = null;
+  var errorElement = null;
 
   var changeFormState = function (isActive) {
     var fieldsets = document.querySelectorAll('fieldset');
@@ -172,9 +176,6 @@
     }
   };
 
-  var successElement = null;
-  var errorElement = null;
-
   var errorHandler = function () {
     errorElement = errorWindow.cloneNode(true);
 
@@ -208,6 +209,10 @@
         evt.preventDefault();
         deleteErrorHandler();
       }
+    });
+
+    buttonError.addEventListener('click', function () {
+      deleteErrorHandler();
     });
   };
 
