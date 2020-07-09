@@ -31,11 +31,17 @@
     return buttonElement;
   };
 
+  var pinItems = null;
+
   var renderPins = function (pins) {
+    pinItems = [];
+
     var fragment = document.createDocumentFragment();
     pins.forEach(function (pin, index) {
       var pinElement = renderPin(pin);
       fragment.appendChild(pinElement);
+
+      pinItems.push(pinElement);
 
       pinElement.tabIndex = index + 1;
       window.card.addClickEvent(pinElement, pin);
@@ -43,17 +49,15 @@
     mapPinsContainer.appendChild(fragment);
   };
 
-  var deletePins = function (pins) {
-    // pins.forEach(function (pin) {
-    //   pin.remove();
-    // });
+  var deletePins = function () {
+    pinItems.forEach(function (pin) {
+      pin.remove();
+    });
   };
 
   window.pin = {
-    PinSize: PinSize,
     PinSizeMain: PinSizeMain,
     renderPins: renderPins,
-    mapPinsContainer: mapPinsContainer,
     deletePins: deletePins
   };
 })();

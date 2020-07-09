@@ -44,34 +44,27 @@
   var timeinSelect = document.querySelector('#timein');
   var timeoutSelect = document.querySelector('#timeout');
   var formContainer = document.querySelector('.ad-form');
-  var addressInput = document.querySelector('#address');
+  var resetButton = document.querySelector('.ad-form__reset');
 
-  var isPageActive = false;
-  var changeFormState = function () {
+  var changeFormState = function (isActive) {
     var fieldsets = document.querySelectorAll('fieldset');
     Array.from(fieldsets).forEach(function (fieldset) {
-      fieldset.disabled = !isPageActive;
+      fieldset.disabled = !isActive;
     });
   };
 
-  var defaultFormState = function () {
-    var fieldsets = document.querySelectorAll('fieldset');
-    Array.from(fieldsets).forEach(function (fieldset) {
-      fieldset.disabled = isPageActive;
-    });
+  var activate = function () {
+    changeFormState(true);
+    formContainer.classList.remove('ad-form--disabled');
   };
 
-  var changePageActive = function (isActive) {
-    isPageActive = isActive;
-  };
-
-  var getIsPageActive = function () {
-    return isPageActive;
+  var deactivate = function () {
+    formContainer.reset();
+    changeFormState(false);
+    formContainer.classList.add('ad-form--disabled');
   };
 
   var changeFormValidation = function () {
-    changeFormState();
-    window.map.setOfferAddress();
     getMinimalType();
     validateCapacity();
     validateTitle();
@@ -176,52 +169,75 @@
     }
   };
 
-  formContainer.addEventListener('change', filterChangeFieldset);
+  var errorWindow = document.querySelector('#error').content.querySelector('.error');
 
   var errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
+    var errorElement = errorWindow.cloneNode(true);
+    // errorElement = document.createElement('error');
 
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+    errorElement.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    errorElement.style.position = 'absolute';
+    errorElement.style.left = 0;
+    errorElement.style.right = 0;
+    errorElement.style.fontSize = '30px';
+    //
+    errorElement.textContent = errorMessage;
+    // document.body.insertAdjacentElement('afterbegin', errorWindow);
+
+    return errorElement;
   };
+
+  var successWindow = document.querySelector('#success').content.querySelector('.success');
 
   var successHandler = function () {
-    formContainer.reset();
-    defaultFormState();
-    window.pin.deletePins();
-    window.map.restoreDefaultPosition();
-    window.map.deactivatePage();
+    var successElement = successWindow.cloneNode(true);
+
+    // successElement = document.createElement('error');
+    successElement.style.display = 'block';
+    successElement.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: green;';
+    successElement.style.position = 'absolute';
+    successElement.style.left = 0;
+    successElement.style.right = 0;
+    successElement.style.fontSize = '30px';
+
+    return successElement;
   };
 
-  var addResetClickEvent = function () {
-    var resetButton = document.querySelector('.ad-form__reset');
-    resetButton.addEventListener('click', function (evt) {
+  var sendSuccess = function () {
+    deactivate();
+    window.pin.deletePins();
+    window.map.deactivate();
+    successHandler();
+  };
+
+  var onResetButtonClick = function (evt) {
       evt.preventDefault();
-      defaultFormState();
-      formContainer.reset();
+
+      deactivate();
       window.pin.deletePins();
-      window.map.restoreDefaultPosition();
-      window.map.deactivatePage();
-    });
+      window.map.deactivate();
   };
 
   var formSubmitHandler = function (evt) {
     evt.preventDefault();
-    window.backend.update(new FormData(formContainer), successHandler, errorHandler);
+    window.backend.update(new FormData(formContainer), sendSuccess, errorHandler);
   };
-  formContainer.addEventListener('submit', formSubmitHandler, addResetClickEvent);
+
+  var returnDefault = function () {
+    addEvents();
+    changeFormValidation();
+    deactivate();
+  };
+
+  var addEvents = function () {
+    formContainer.addEventListener('change', filterChangeFieldset);
+    formContainer.addEventListener('submit', formSubmitHandler);
+    resetButton.addEventListener('click', onResetButtonClick);
+  };
+
   window.form = {
-    changePageActive: changePageActive,
-    changeFormState: changeFormState,
-    changeFormValidation: changeFormValidation,
-    getIsPageActive: getIsPageActive,
-    formContainer: formContainer,
-    addressInput: addressInput,
-    isPageActive: isPageActive
+    returnDefault: returnDefault,
+    deactivate: deactivate,
+    activate: activate
   };
 })();
