@@ -130,7 +130,7 @@
     mapContainer: mapContainer,
     deactivate: deactivate,
     returnDefault: returnDefault,
-    // UserClick: UserClick,
+    UserClick: UserClick,
     // restoreDefaultPosition: restoreDefaultPosition
   };
 })();
