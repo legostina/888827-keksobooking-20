@@ -11,6 +11,11 @@
     MIN: 130,
     MAX: 630,
   };
+  var UserClick = {
+    ENTER: 'Enter',
+    ESCAPE: 'Escape',
+    LEFT_MOUSE: 0
+  };
 
   var getDisplayPlacementType = function (type) {
     switch (type) {
@@ -30,5 +35,6 @@
     getDisplayPlacementType: getDisplayPlacementType,
     placementType: PlacementType,
     LocationVertical: LocationVertical,
+    UserClick: UserClick
   };
 })();

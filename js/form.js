@@ -47,7 +47,6 @@
   var resetButton = document.querySelector('.ad-form__reset');
   var mainContainer = document.querySelector('main');
   var errorWindow = document.querySelector('#error').content.querySelector('.error');
-  var buttonError = document.querySelector('#error').content.querySelector('.error__button');
   var successWindow = document.querySelector('#success').content.querySelector('.success');
 
   var successElement = null;
@@ -176,61 +175,79 @@
     }
   };
 
-  var errorHandler = function () {
+  var onDocumentMouseDownError = function (evt) {
+    if (evt.button === window.util.UserClick.LEFT_MOUSE && errorElement !== null) {
+      evt.preventDefault();
+      hideError();
+    }
+  };
+
+  var onDocumentKeyDownError = function (evt) {
+    if (evt.key === window.util.UserClick.ESCAPE && errorElement !== null) {
+      evt.preventDefault();
+      hideError();
+    }
+  };
+
+  var onDocumentMouseDownSuccess = function (evt) {
+    if (evt.button === window.util.UserClick.LEFT_MOUSE && successElement !== null) {
+      evt.preventDefault();
+      hideSuccess();
+    }
+  };
+
+  var onDocumentKeyDownSuccess = function (evt) {
+    if (evt.key === window.util.UserClick.ESCAPE && successElement !== null) {
+      evt.preventDefault();
+      hideSuccess();
+    }
+  };
+
+  var onError = function () {
     errorElement = errorWindow.cloneNode(true);
 
     mainContainer.insertAdjacentElement('afterbegin', errorElement);
-    closeHandler();
+
+    addErrorEvents();
   };
 
-  var successHandler = function () {
+  var addErrorEvents = function () {
+    document.addEventListener('mousedown', onDocumentMouseDownError);
+    document.addEventListener('keydown', onDocumentKeyDownError);
+  };
+
+  var showSuccess = function () {
     successElement = successWindow.cloneNode(true);
 
     document.body.insertAdjacentElement('afterbegin', successElement);
-    closeHandler();
+    addSuccessEvents();
   };
 
-  var closeHandler = function () {
-    document.addEventListener('mousedown', function (evt) {
-      if (evt.button === window.map.UserClick.LEFT_MOUSE && successElement !== null) {
-        evt.preventDefault();
-        deleteSuccessHandler();
-      } else if (evt.button === window.map.UserClick.LEFT_MOUSE && errorElement !== null) {
-        evt.preventDefault();
-        deleteErrorHandler();
-      }
-    });
-
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === window.map.UserClick.ESCAPE && successElement !== null) {
-        evt.preventDefault();
-        deleteSuccessHandler();
-      } else if (evt.key === window.map.UserClick.ESCAPE && errorElement !== null) {
-        evt.preventDefault();
-        deleteErrorHandler();
-      }
-    });
-
-    buttonError.addEventListener('click', function () {
-      deleteErrorHandler();
-    });
+  var addSuccessEvents = function () {
+    document.addEventListener('mousedown', onDocumentMouseDownSuccess);
+    document.addEventListener('keydown', onDocumentKeyDownSuccess);
   };
 
-  var deleteSuccessHandler = function () {
+  var hideSuccess = function () {
     successElement.remove();
     successElement = null;
+    document.removeEventListener('mousedown', onDocumentMouseDownSuccess);
+    document.removeEventListener('keydown', onDocumentKeyDownSuccess);
   };
 
-  var deleteErrorHandler = function () {
+  var hideError = function () {
     errorElement.remove();
     errorElement = null;
+
+    document.removeEventListener('mousedown', onDocumentMouseDownError);
+    document.removeEventListener('keydown', onDocumentKeyDownError);
   };
 
-  var sendSuccess = function () {
+  var onSuccess = function () {
     deactivate();
     window.pin.deletePins();
     window.map.deactivate();
-    successHandler();
+    showSuccess();
   };
 
   var onResetButtonClick = function (evt) {
@@ -243,7 +260,7 @@
 
   var formSubmitHandler = function (evt) {
     evt.preventDefault();
-    window.backend.update(new FormData(formContainer), sendSuccess, errorHandler);
+    window.backend.update(new FormData(formContainer), onSuccess, onError);
   };
 
   var returnDefault = function () {

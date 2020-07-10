@@ -5,11 +5,6 @@
   var mapOverlay = document.querySelector('.map__overlay');
   var mapPinMain = document.querySelector('.map__pin--main');
   var addressInput = document.querySelector('#address');
-  var UserClick = {
-    ENTER: 'Enter',
-    ESCAPE: 'Escape',
-    LEFT_MOUSE: 0
-  };
   var PinMainDefault = {
     LEFT: 570,
     TOP: 375
@@ -34,7 +29,7 @@
 
   var deactivate = function () {
     isActive = false;
-    window.map.mapContainer.classList.add('map--faded');
+    mapContainer.classList.add('map--faded');
     restoreDefaultPosition();
     setOfferAddress();
   };
@@ -51,7 +46,7 @@
 
   var addEvents = function () {
     mapPinMain.addEventListener('mousedown', function (evt) {
-      if (evt.button === UserClick.LEFT_MOUSE && !window.form.isPageActive) {
+      if (evt.button === window.util.UserClick.LEFT_MOUSE && !window.form.isPageActive) {
         evt.preventDefault();
         activate();
       }
@@ -108,7 +103,7 @@
     });
 
     mapPinMain.addEventListener('keydown', function (evt) {
-      if (evt.key === UserClick.ENTER && !window.form.isPageActive) {
+      if (evt.key === window.util.UserClick.ENTER && !window.form.isPageActive) {
         evt.preventDefault();
         activate();
       }
@@ -129,8 +124,6 @@
   window.map = {
     mapContainer: mapContainer,
     deactivate: deactivate,
-    returnDefault: returnDefault,
-    UserClick: UserClick,
-    // restoreDefaultPosition: restoreDefaultPosition
+    returnDefault: returnDefault
   };
 })();
