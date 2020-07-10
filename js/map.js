@@ -4,10 +4,10 @@
   var mapContainer = document.querySelector('.map');
   var mapOverlay = document.querySelector('.map__overlay');
   var mapPinMain = document.querySelector('.map__pin--main');
-  var UserClick = {
-    ENTER: 'Enter',
-    ESCAPE: 'Escape',
-    LEFT_MOUSE: 0
+  var addressInput = document.querySelector('#address');
+  var PinMainDefault = {
+    LEFT: 570,
+    TOP: 375
   };
   var MIN_MOVE_LEFT = 0;
   var LimitsMoving = {
@@ -17,21 +17,38 @@
     MAX_BOTTOM: window.util.LocationVertical.MAX - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
   };
 
-  var activatePage = function () {
-    window.form.changePageActive(true);
-    window.form.changeFormValidation();
+  var isActive = false;
+
+  var activate = function () {
+    isActive = true;
     mapContainer.classList.remove('map--faded');
-    window.form.formContainer.classList.remove('ad-form--disabled');
     window.backend.load(window.pin.renderPins);
     setOfferAddress();
-    window.form.changeFormState();
+    window.form.activate();
   };
 
-  var initEvents = function () {
+  var deactivate = function () {
+    isActive = false;
+    mapContainer.classList.add('map--faded');
+    restoreDefaultPosition();
+    setOfferAddress();
+  };
+
+  var restoreDefaultPosition = function () {
+    mapPinMain.style.top = PinMainDefault.TOP + 'px';
+    mapPinMain.style.left = PinMainDefault.LEFT + 'px';
+  };
+
+  var returnDefault = function () {
+    addEvents();
+    deactivate();
+  };
+
+  var addEvents = function () {
     mapPinMain.addEventListener('mousedown', function (evt) {
-      if (evt.button === UserClick.LEFT_MOUSE && !window.form.isPageActive) {
+      if (evt.button === window.util.UserClick.LEFT_MOUSE && !window.form.isPageActive) {
         evt.preventDefault();
-        activatePage();
+        activate();
       }
 
       evt.preventDefault();
@@ -41,7 +58,7 @@
         y: evt.clientY
       };
 
-      var onMouseMove = function (moveEvt) {
+      var mouseMoveHandler = function (moveEvt) {
         moveEvt.preventDefault();
 
         var shift = {
@@ -72,46 +89,41 @@
         mapPinMain.style.left = left + 'px';
         mapPinMain.style.top = top + 'px';
 
-        window.map.setOfferAddress();
+        setOfferAddress();
       };
 
-      var onMouseUp = function (upEvt) {
+      var mouseUpHandler = function (upEvt) {
         upEvt.preventDefault();
 
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
+        document.removeEventListener('mousemove', mouseMoveHandler);
+        document.removeEventListener('mouseup', mouseUpHandler);
       };
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
     });
 
     mapPinMain.addEventListener('keydown', function (evt) {
-      if (evt.key === UserClick.ENTER && !window.form.isPageActive) {
+      if (evt.key === window.util.UserClick.ENTER && !window.form.isPageActive) {
         evt.preventDefault();
-        activatePage();
+        activate();
       }
     });
   };
 
   var setOfferAddress = function () {
-    var x = 0;
-    var y = 0;
+    var x = mapPinMain.offsetLeft + window.pin.PinSizeMain.HALF_WIDTH;
+    var y = mapPinMain.offsetTop + window.pin.PinSizeMain.HALF_HEIGHT;
 
-    if (window.form.getIsPageActive()) {
+    if (isActive) {
       x = mapPinMain.offsetLeft + window.pin.PinSizeMain.HALF_WIDTH;
       y = mapPinMain.offsetTop + window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER;
-
-    } else {
-      x = mapPinMain.offsetLeft + window.pin.PinSizeMain.HALF_WIDTH;
-      y = mapPinMain.offsetTop + window.pin.PinSizeMain.HALF_HEIGHT;
     }
-    window.form.addressInput.value = Math.floor(x) + ', ' + Math.round(y);
+    addressInput.value = Math.floor(x) + ', ' + Math.round(y);
   };
 
   window.map = {
     mapContainer: mapContainer,
-    setOfferAddress: setOfferAddress,
-    initEvents: initEvents,
-    UserClick: UserClick
+    deactivate: deactivate,
+    returnDefault: returnDefault
   };
 })();

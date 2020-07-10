@@ -1,6 +1,7 @@
 'use strict';
 
-window.form.changeFormValidation();
-window.map.initEvents();
+window.form.returnDefault();
+// window.form.changeFormValidation();
+window.map.returnDefault();
 
 // console.log(pins);

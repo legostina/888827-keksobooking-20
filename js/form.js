@@ -44,27 +44,33 @@
   var timeinSelect = document.querySelector('#timein');
   var timeoutSelect = document.querySelector('#timeout');
   var formContainer = document.querySelector('.ad-form');
-  var addressInput = document.querySelector('#address');
+  var resetButton = document.querySelector('.ad-form__reset');
+  var mainContainer = document.querySelector('main');
+  var errorWindow = document.querySelector('#error').content.querySelector('.error');
+  var successWindow = document.querySelector('#success').content.querySelector('.success');
 
-  var isPageActive = false;
-  var changeFormState = function () {
+  var successElement = null;
+  var errorElement = null;
+
+  var changeFormState = function (isActive) {
     var fieldsets = document.querySelectorAll('fieldset');
     Array.from(fieldsets).forEach(function (fieldset) {
-      fieldset.disabled = !isPageActive;
+      fieldset.disabled = !isActive;
     });
   };
 
-  var changePageActive = function (isActive) {
-    isPageActive = isActive;
+  var activate = function () {
+    changeFormState(true);
+    formContainer.classList.remove('ad-form--disabled');
   };
 
-  var getIsPageActive = function () {
-    return isPageActive;
+  var deactivate = function () {
+    formContainer.reset();
+    changeFormState(false);
+    formContainer.classList.add('ad-form--disabled');
   };
 
   var changeFormValidation = function () {
-    changeFormState();
-    window.map.setOfferAddress();
     getMinimalType();
     validateCapacity();
     validateTitle();
@@ -169,14 +175,109 @@
     }
   };
 
-  formContainer.addEventListener('change', filterChangeFieldset);
+  var onDocumentMouseDownError = function (evt) {
+    if (evt.button === window.util.UserClick.LEFT_MOUSE && errorElement !== null) {
+      evt.preventDefault();
+      hideError();
+    }
+  };
+
+  var onDocumentKeyDownError = function (evt) {
+    if (evt.key === window.util.UserClick.ESCAPE && errorElement !== null) {
+      evt.preventDefault();
+      hideError();
+    }
+  };
+
+  var onDocumentMouseDownSuccess = function (evt) {
+    if (evt.button === window.util.UserClick.LEFT_MOUSE && successElement !== null) {
+      evt.preventDefault();
+      hideSuccess();
+    }
+  };
+
+  var onDocumentKeyDownSuccess = function (evt) {
+    if (evt.key === window.util.UserClick.ESCAPE && successElement !== null) {
+      evt.preventDefault();
+      hideSuccess();
+    }
+  };
+
+  var onError = function () {
+    errorElement = errorWindow.cloneNode(true);
+
+    mainContainer.insertAdjacentElement('afterbegin', errorElement);
+
+    addErrorEvents();
+  };
+
+  var addErrorEvents = function () {
+    document.addEventListener('mousedown', onDocumentMouseDownError);
+    document.addEventListener('keydown', onDocumentKeyDownError);
+  };
+
+  var showSuccess = function () {
+    successElement = successWindow.cloneNode(true);
+
+    document.body.insertAdjacentElement('afterbegin', successElement);
+    addSuccessEvents();
+  };
+
+  var addSuccessEvents = function () {
+    document.addEventListener('mousedown', onDocumentMouseDownSuccess);
+    document.addEventListener('keydown', onDocumentKeyDownSuccess);
+  };
+
+  var hideSuccess = function () {
+    successElement.remove();
+    successElement = null;
+    document.removeEventListener('mousedown', onDocumentMouseDownSuccess);
+    document.removeEventListener('keydown', onDocumentKeyDownSuccess);
+  };
+
+  var hideError = function () {
+    errorElement.remove();
+    errorElement = null;
+
+    document.removeEventListener('mousedown', onDocumentMouseDownError);
+    document.removeEventListener('keydown', onDocumentKeyDownError);
+  };
+
+  var onSuccess = function () {
+    deactivate();
+    window.pin.deletePins();
+    window.map.deactivate();
+    showSuccess();
+  };
+
+  var onResetButtonClick = function (evt) {
+    evt.preventDefault();
+
+    deactivate();
+    window.pin.deletePins();
+    window.map.deactivate();
+  };
+
+  var formSubmitHandler = function (evt) {
+    evt.preventDefault();
+    window.backend.update(new FormData(formContainer), onSuccess, onError);
+  };
+
+  var returnDefault = function () {
+    addEvents();
+    changeFormValidation();
+    deactivate();
+  };
+
+  var addEvents = function () {
+    formContainer.addEventListener('change', filterChangeFieldset);
+    formContainer.addEventListener('submit', formSubmitHandler);
+    resetButton.addEventListener('click', onResetButtonClick);
+  };
+
   window.form = {
-    changePageActive: changePageActive,
-    changeFormState: changeFormState,
-    changeFormValidation: changeFormValidation,
-    getIsPageActive: getIsPageActive,
-    formContainer: formContainer,
-    addressInput: addressInput,
-    isPageActive: isPageActive
+    returnDefault: returnDefault,
+    deactivate: deactivate,
+    activate: activate
   };
 })();

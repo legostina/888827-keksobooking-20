@@ -20,13 +20,13 @@
 
     closeButton.addEventListener('click', function (evt) {
       evt.preventDefault();
-      if (evt.button === window.map.UserClick.LEFT_MOUSE) {
+      if (evt.button === window.util.UserClick.LEFT_MOUSE) {
         window.card.removePopup(closeButton);
       }
     });
 
     document.addEventListener('keydown', function (evt) {
-      if (evt.key === window.map.UserClick.ESCAPE) {
+      if (evt.key === window.util.UserClick.ESCAPE) {
         evt.preventDefault();
         window.card.removePopup();
       }
