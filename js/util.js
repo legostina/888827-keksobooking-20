@@ -2,6 +2,7 @@
 
 (function () {
   var PlacementType = {
+    ANY: 'any',
     PALACE: 'palace',
     FLAT: 'flat',
     HOUSE: 'house',

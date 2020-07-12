@@ -52,6 +52,7 @@
     xhr.timeout = TIMEOUT_IN_MS;
 
     xhr.open(type, url);
+    window.filter.initialize();
     return xhr;
   };
 
