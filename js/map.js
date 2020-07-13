@@ -22,7 +22,7 @@
   var activate = function () {
     isActive = true;
     mapContainer.classList.remove('map--faded');
-    window.backend.load(window.pin.renderPins);
+    window.backend.load(window.filter.initialize);
     setOfferAddress();
     window.form.activate();
   };
