@@ -48,11 +48,7 @@
 
     var popupPhotosContainer = popupElement.querySelector('.popup__photos');
 
-    if (pin.offer.photos !== 0) {
-      renderPhotos(popupPhotosContainer, pin.offer.photos);
-    } else {
-      popupPhotosContainer.remove();
-    }
+    renderPhotos(popupPhotosContainer, pin.offer.photos);
 
     var popupFeaturesContainer = popupElement.querySelector('.popup__features');
     addPopupFeatures(popupFeaturesContainer, pin.offer.features);
@@ -63,6 +59,11 @@
   };
 
   var addPopupFeatures = function (container, features) {
+    if (features.length === 0) {
+      container.remove();
+      return;
+    }
+
     var fragment = document.createDocumentFragment();
     container.innerHTML = '';
 
@@ -75,8 +76,13 @@
     container.appendChild(fragment);
   };
 
-  var renderPhotos = function (popupPhotosContainer, photos) {
-    var photoTemplate = popupPhotosContainer.querySelector('img');
+  var renderPhotos = function (container, photos) {
+    if (photos.length === 0) {
+      container.remove();
+      return;
+    }
+
+    var photoTemplate = container.querySelector('img');
     var photoElement = photoTemplate.cloneNode(true);
     var fragment = document.createDocumentFragment();
 
@@ -87,7 +93,7 @@
       photoElementNew.src = photo;
       fragment.appendChild(photoElementNew);
     });
-    popupPhotosContainer.appendChild(fragment);
+    container.appendChild(fragment);
   };
 
   var removePopup = function () {

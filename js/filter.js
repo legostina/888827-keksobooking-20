@@ -19,10 +19,9 @@
   };
 
   var filterPins = function () {
-    var filteredPins = getFilteredPins();
     window.pin.deletePins();
     window.card.removePopup();
-    window.pin.renderPins(filteredPins);
+    window.pin.renderPins(getFilteredPins());
   };
 
   var getFilteredPins = function () {
