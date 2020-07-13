@@ -50,9 +50,12 @@
   };
 
   var deletePins = function () {
-    pinItems.forEach(function (pin) {
-      pin.remove();
-    });
+    if(pinItems !== null) {
+      pinItems.forEach(function (pin) {
+        pin.remove();
+      });
+      pinItems = null;
+    }
   };
 
   window.pin = {

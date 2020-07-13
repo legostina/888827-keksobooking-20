@@ -11,10 +11,18 @@
   var initialize = function (items) {
     pins = items;
     addFormEvent();
+    filterPins();
   };
 
   var filterPinsByHouseType = function (pin) {
-    return pin.offer.type === houseType.value;
+    return houseType.value === window.util.placementType.ANY || pin.offer.type === houseType.value;
+  };
+
+  var filterPins = function () {
+    var filteredPins = getFilteredPins();
+    window.pin.deletePins();
+    window.card.removePopup();
+    window.pin.renderPins(filteredPins);
   };
 
   var getFilteredPins = function () {
@@ -28,8 +36,7 @@
 
   var addFormEvent = function() {
     formContainer.addEventListener('change', function(){
-      var filteredPins = getFilteredPins();
-      window.backend.load(filteredPins);
+      filterPins();
     });
   };
 
