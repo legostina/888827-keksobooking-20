@@ -50,7 +50,7 @@
   };
 
   var deletePins = function () {
-    if(pinItems !== null) {
+    if (pinItems !== null) {
       pinItems.forEach(function (pin) {
         pin.remove();
       });

@@ -34,8 +34,8 @@
     return filteredPins;
   };
 
-  var addFormEvent = function() {
-    formContainer.addEventListener('change', function(){
+  var addFormEvent = function () {
+    formContainer.addEventListener('change', function () {
       filterPins();
     });
   };

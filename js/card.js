@@ -2,8 +2,6 @@
 
 (function () {
   var mapCard = document.querySelector('#card').content.querySelector('.map__card');
-  var cardTemplate = document.querySelector('#card');
-  var popupFeaturesContainer = cardTemplate.querySelector('.popup__features');
   var popupElement = null;
 
   var getPopupElement = function () {
@@ -56,6 +54,7 @@
       popupPhotosContainer.remove();
     }
 
+    var popupFeaturesContainer = popupElement.querySelector('.popup__features');
     addPopupFeatures(popupFeaturesContainer, pin.offer.features);
 
     window.map.mapContainer.insertAdjacentElement('afterbegin', popupElement);
@@ -65,10 +64,11 @@
 
   var addPopupFeatures = function (container, features) {
     var fragment = document.createDocumentFragment();
+    container.innerHTML = '';
 
     features.forEach(function (feature) {
       var popupFeature = document.createElement('li');
-      popupFeature.classList.add('popup__feature--' + feature);
+      popupFeature.className = 'popup__feature popup__feature--' + feature;
       fragment.appendChild(popupFeature);
     });
 
