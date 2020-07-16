@@ -5,6 +5,8 @@
   var houseType = document.querySelector('#housing-type');
   var houseRoom = document.querySelector('#housing-rooms');
   var houseGuest = document.querySelector('#housing-guests');
+  var housePrice = document.querySelector('#housing-price');
+  var mapFilters = document.querySelector('.map__filters');
 
   var PlacementPrice = {
     ANY: 'any',
@@ -54,7 +56,7 @@
   };
 
   var filterPinsByHousePrice = function (pin) {
-    switch (pin) {
+    switch (housePrice.value) {
       case PlacementPrice.LOW:
         return pin.offer.price < PriceScope.LOW;
       case PlacementPrice.HIGH:
@@ -66,6 +68,14 @@
     }
   };
 
+  var filterPinsByHouseFeatures = function (pin) {
+    var checkedFeatures = mapFilters.querySelectorAll('input:checked');
+
+    return Array.from(checkedFeatures).every(function (element) {
+      return pin.offer.features.includes(element.value);
+    });
+  };
+
   var filterPins = function () {
     window.pin.deletePins();
     window.card.removePopup();
@@ -73,7 +83,7 @@
   };
 
   var getFilteredPins = function () {
-    var filteredPins = pins.filter(filterPinsByHouseType).filter(filterPinsByHousePrice).filter(filterPinsByHouseRoom).filter(filterPinsByHouseGuest);
+    var filteredPins = pins.filter(filterPinsByHouseType).filter(filterPinsByHousePrice).filter(filterPinsByHouseRoom).filter(filterPinsByHouseGuest).filter(filterPinsByHouseFeatures);
 
     if (filteredPins.length > MAX_PINS_COUNT) {
       return filteredPins.slice(0, MAX_PINS_COUNT);
@@ -82,10 +92,10 @@
   };
 
   var addFormEvent = function () {
-    formContainer.addEventListener('change',  window.debounce( function () {
+    formContainer.addEventListener('change', window.debounce(function () {
       filterPins();
-    })
-  )};
+    }));
+  };
 
   window.filter = {
     initialize: initialize
