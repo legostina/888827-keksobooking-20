@@ -35,11 +35,11 @@
   };
 
   var filterPinsByHouseRoom = function (pin) {
-    return houseRoom.value === ANY_VALUE || pin.offer.rooms == houseRoom.value;
+    return houseRoom.value === ANY_VALUE || pin.offer.rooms === +houseRoom.value;
   };
 
   var filterPinsByHouseGuest = function (pin) {
-    return houseGuest.value === ANY_VALUE || pin.offer.guests == houseGuest.value;
+    return houseGuest.value === ANY_VALUE || pin.offer.guests === +houseGuest.value;
   };
 
   var filterPinsByHousePrice = function (pin) {

@@ -7,7 +7,6 @@
   var mapOverlay = document.querySelector('.map__overlay');
   var mapPinMain = document.querySelector('.map__pin--main');
   var addressInput = document.querySelector('#address');
-  
   var PinMainDefault = {
     LEFT: 570,
     TOP: 375
