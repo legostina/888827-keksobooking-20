@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var TIMEOUT_IN_MS = 10000;
+
   var StatusCode = {
     OK: 200
   };
@@ -12,7 +14,6 @@
     LOAD: 'https://javascript.pages.academy/keksobooking/data',
     UPDATE: 'https://javascript.pages.academy/keksobooking'
   };
-  var TIMEOUT_IN_MS = 10000;
 
   var load = function (onSuccess, onError) {
     var xhr = getXhrInstance(Types.GET, Url.LOAD, onSuccess, onError);

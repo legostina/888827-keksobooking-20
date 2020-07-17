@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var MIN_MOVE_LEFT = 0;
+
   var mapContainer = document.querySelector('.map');
   var mapOverlay = document.querySelector('.map__overlay');
   var mapPinMain = document.querySelector('.map__pin--main');
@@ -9,7 +11,7 @@
     LEFT: 570,
     TOP: 375
   };
-  var MIN_MOVE_LEFT = 0;
+
   var LimitsMoving = {
     MIN_LEFT: MIN_MOVE_LEFT - window.pin.PinSizeMain.HALF_WIDTH,
     MAX_RIGHT: mapOverlay.getBoundingClientRect().width - window.pin.PinSizeMain.HALF_WIDTH,
