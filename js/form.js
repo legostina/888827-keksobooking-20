@@ -254,6 +254,7 @@
     evt.preventDefault();
 
     deactivate();
+    window.avatar.deleteImage();
     window.pin.deletePins();
     window.map.deactivate();
   };
@@ -265,6 +266,7 @@
 
   var returnDefault = function () {
     addEvents();
+    window.avatar.deleteImage();
     changeFormValidation();
     deactivate();
   };
