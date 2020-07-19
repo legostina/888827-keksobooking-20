@@ -12,7 +12,7 @@
     MIN: 130,
     MAX: 630,
   };
-  var UserClick = {
+  var KeyType = {
     ENTER: 'Enter',
     ESCAPE: 'Escape',
     LEFT_MOUSE: 0
@@ -36,6 +36,6 @@
     getDisplayPlacementType: getDisplayPlacementType,
     placementType: PlacementType,
     LocationVertical: LocationVertical,
-    UserClick: UserClick
+    KeyType: KeyType
   };
 })();

@@ -27,22 +27,22 @@
   var initialize = function (items) {
     pins = items;
     addFormEvent();
-    filterPins();
+    applyFilter();
   };
 
-  var filterPinsByHouseType = function (pin) {
+  var filterByHouseType = function (pin) {
     return houseType.value === ANY_VALUE || pin.offer.type === houseType.value;
   };
 
-  var filterPinsByHouseRoom = function (pin) {
+  var filterByHouseRoom = function (pin) {
     return houseRoom.value === ANY_VALUE || pin.offer.rooms === +houseRoom.value;
   };
 
-  var filterPinsByHouseGuest = function (pin) {
+  var filterByHouseGuest = function (pin) {
     return houseGuest.value === ANY_VALUE || pin.offer.guests === +houseGuest.value;
   };
 
-  var filterPinsByHousePrice = function (pin) {
+  var filterByHousePrice = function (pin) {
     switch (housePrice.value) {
       case PlacementPrice.LOW:
         return pin.offer.price < PriceScope.LOW;
@@ -55,7 +55,7 @@
     }
   };
 
-  var filterPinsByHouseFeatures = function (pin) {
+  var filterByHouseFeatures = function (pin) {
     var checkedFeatures = mapFilters.querySelectorAll('input:checked');
 
     return Array.from(checkedFeatures).every(function (element) {
@@ -63,14 +63,14 @@
     });
   };
 
-  var filterPins = function () {
-    window.pin.deletePins();
+  var applyFilter = function () {
+    window.pin.remove();
     window.card.removePopup();
-    window.pin.renderPins(getFilteredPins());
+    window.pin.render(getFilteredPins());
   };
 
   var getFilteredPins = function () {
-    var filteredPins = pins.filter(filterPinsByHouseType).filter(filterPinsByHousePrice).filter(filterPinsByHouseRoom).filter(filterPinsByHouseGuest).filter(filterPinsByHouseFeatures);
+    var filteredPins = pins.filter(filterByHouseType).filter(filterByHousePrice).filter(filterByHouseRoom).filter(filterByHouseGuest).filter(filterByHouseFeatures);
 
     if (filteredPins.length > MAX_PINS_COUNT) {
       return filteredPins.slice(0, MAX_PINS_COUNT);
@@ -80,11 +80,16 @@
 
   var addFormEvent = function () {
     formContainer.addEventListener('change', window.debounce(function () {
-      filterPins();
+      applyFilter();
     }));
   };
 
+  var reset = function () {
+    formContainer.reset();
+  };
+
   window.filter = {
-    initialize: initialize
+    initialize: initialize,
+    reset: reset
   };
 })();

@@ -62,16 +62,19 @@
   var activate = function () {
     changeFormState(true);
     formContainer.classList.remove('ad-form--disabled');
+    window.photo.addEvents();
   };
 
   var deactivate = function () {
     formContainer.reset();
     changeFormState(false);
     formContainer.classList.add('ad-form--disabled');
+    window.photo.reset();
+    applyMinimalType();
   };
 
   var changeFormValidation = function () {
-    getMinimalType();
+    applyMinimalType();
     validateCapacity();
     validateTitle();
     validateType();
@@ -135,7 +138,7 @@
     }
   };
 
-  var getMinimalType = function () {
+  var applyMinimalType = function () {
     if (typeInput.value === window.util.placementType.BUNGALO) {
       priceInput.placeholder = PricePlaceholder.ZER0;
       priceInput.min = PriceMinValue.ZER0;
@@ -162,13 +165,13 @@
     }
   };
 
-  var filterChangeFieldset = function (evt) {
+  var onFormChange = function (evt) {
     if (evt.target.id === roomNumberInput.id || evt.target.id === capacityInput.id) {
       validateCapacity();
     } else if (evt.target.id === titleInput.id) {
       validateTitle();
     } else if (evt.target.id === typeInput.id || evt.target.id === priceInput.id) {
-      getMinimalType();
+      applyMinimalType();
       validateType();
     } else if (evt.target.id === timeinSelect.id || evt.target.id === timeoutSelect.id) {
       checkTimes(evt.target);
@@ -176,39 +179,43 @@
   };
 
   var onDocumentMouseDownError = function (evt) {
-    if (evt.button === window.util.UserClick.LEFT_MOUSE && errorElement !== null) {
+    if (evt.button === window.util.KeyType.LEFT_MOUSE && errorElement !== null) {
       evt.preventDefault();
       hideError();
     }
   };
 
   var onDocumentKeyDownError = function (evt) {
-    if (evt.key === window.util.UserClick.ESCAPE && errorElement !== null) {
+    if (evt.key === window.util.KeyType.ESCAPE && errorElement !== null) {
       evt.preventDefault();
       hideError();
     }
   };
 
   var onDocumentMouseDownSuccess = function (evt) {
-    if (evt.button === window.util.UserClick.LEFT_MOUSE && successElement !== null) {
+    if (evt.button === window.util.KeyType.LEFT_MOUSE && successElement !== null) {
       evt.preventDefault();
       hideSuccess();
     }
   };
 
   var onDocumentKeyDownSuccess = function (evt) {
-    if (evt.key === window.util.UserClick.ESCAPE && successElement !== null) {
+    if (evt.key === window.util.KeyType.ESCAPE && successElement !== null) {
       evt.preventDefault();
       hideSuccess();
     }
   };
 
-  var onError = function () {
+  var showError = function () {
     errorElement = errorWindow.cloneNode(true);
 
     mainContainer.insertAdjacentElement('afterbegin', errorElement);
 
     addErrorEvents();
+  };
+
+  var onError = function () {
+    showError();
   };
 
   var addErrorEvents = function () {
@@ -245,8 +252,9 @@
 
   var onSuccess = function () {
     deactivate();
-    window.pin.deletePins();
+    window.pin.remove();
     window.map.deactivate();
+    window.filter.reset();
     showSuccess();
   };
 
@@ -254,11 +262,12 @@
     evt.preventDefault();
 
     deactivate();
-    window.pin.deletePins();
+    window.pin.remove();
     window.map.deactivate();
+    window.filter.reset();
   };
 
-  var formSubmitHandler = function (evt) {
+  var onFormSubmit = function (evt) {
     evt.preventDefault();
     window.backend.update(new FormData(formContainer), onSuccess, onError);
   };
@@ -270,14 +279,14 @@
   };
 
   var addEvents = function () {
-    formContainer.addEventListener('change', filterChangeFieldset);
-    formContainer.addEventListener('submit', formSubmitHandler);
+    formContainer.addEventListener('change', onFormChange);
+    formContainer.addEventListener('submit', onFormSubmit);
     resetButton.addEventListener('click', onResetButtonClick);
   };
 
   window.form = {
     returnDefault: returnDefault,
-    deactivate: deactivate,
-    activate: activate
+    activate: activate,
+    showError: showError
   };
 })();
