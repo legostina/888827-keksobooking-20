@@ -62,12 +62,14 @@
   var activate = function () {
     changeFormState(true);
     formContainer.classList.remove('ad-form--disabled');
+    window.photo.addEvents();
   };
 
   var deactivate = function () {
     formContainer.reset();
     changeFormState(false);
     formContainer.classList.add('ad-form--disabled');
+    window.photo.reset();
   };
 
   var changeFormValidation = function () {
@@ -254,7 +256,6 @@
     evt.preventDefault();
 
     deactivate();
-    window.avatar.deleteImage();
     window.pin.deletePins();
     window.map.deactivate();
   };
@@ -266,7 +267,6 @@
 
   var returnDefault = function () {
     addEvents();
-    window.avatar.deleteImage();
     changeFormValidation();
     deactivate();
   };
@@ -279,7 +279,6 @@
 
   window.form = {
     returnDefault: returnDefault,
-    deactivate: deactivate,
     activate: activate
   };
 })();
