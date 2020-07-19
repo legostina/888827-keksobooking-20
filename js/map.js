@@ -12,11 +12,19 @@
     TOP: 375
   };
 
-  var LimitsMoving = {
-    MIN_LEFT: MIN_MOVE_LEFT - window.pin.PinSizeMain.HALF_WIDTH,
-    MAX_RIGHT: mapOverlay.getBoundingClientRect().width - window.pin.PinSizeMain.HALF_WIDTH,
-    MIN_TOP: window.util.LocationVertical.MIN - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
-    MAX_BOTTOM: window.util.LocationVertical.MAX - (window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER),
+  var PinSizeMain = {
+    WIDTH: 65,
+    HEIGHT: 65,
+    AFTER: 22,
+    HALF_WIDTH: 32.5,
+    HALF_HEIGHT: 32.5
+  };
+
+  var Limit = {
+    MIN_LEFT: MIN_MOVE_LEFT - PinSizeMain.HALF_WIDTH,
+    MAX_RIGHT: mapOverlay.getBoundingClientRect().width - PinSizeMain.HALF_WIDTH,
+    MIN_TOP: window.util.LocationVertical.MIN - (PinSizeMain.HEIGHT + PinSizeMain.AFTER),
+    MAX_BOTTOM: window.util.LocationVertical.MAX - (PinSizeMain.HEIGHT + PinSizeMain.AFTER),
   };
 
   var isActive = false;
@@ -24,7 +32,7 @@
   var activate = function () {
     isActive = true;
     mapContainer.classList.remove('map--faded');
-    window.backend.load(window.filter.initialize);
+    window.backend.load(window.filter.initialize, window.form.showError);
     setOfferAddress();
     window.form.activate();
   };
@@ -48,7 +56,7 @@
 
   var addEvents = function () {
     mapPinMain.addEventListener('mousedown', function (evt) {
-      if (evt.button === window.util.UserClick.LEFT_MOUSE && !window.form.isPageActive) {
+      if (evt.button === window.util.KeyType.LEFT_MOUSE && !window.form.isPageActive) {
         evt.preventDefault();
         activate();
       }
@@ -60,7 +68,7 @@
         y: evt.clientY
       };
 
-      var mouseMoveHandler = function (moveEvt) {
+      var onMouseMove = function (moveEvt) {
         moveEvt.preventDefault();
 
         var shift = {
@@ -76,16 +84,16 @@
         var left = mapPinMain.offsetLeft - shift.x;
         var top = mapPinMain.offsetTop - shift.y;
 
-        if (left > LimitsMoving.MAX_RIGHT) {
-          left = LimitsMoving.MAX_RIGHT;
-        } else if (left < LimitsMoving.MIN_LEFT) {
-          left = LimitsMoving.MIN_LEFT;
+        if (left > Limit.MAX_RIGHT) {
+          left = Limit.MAX_RIGHT;
+        } else if (left < Limit.MIN_LEFT) {
+          left = Limit.MIN_LEFT;
         }
 
-        if (top > LimitsMoving.MAX_BOTTOM) {
-          top = LimitsMoving.MAX_BOTTOM;
-        } else if (top < LimitsMoving.MIN_TOP) {
-          top = LimitsMoving.MIN_TOP;
+        if (top > Limit.MAX_BOTTOM) {
+          top = Limit.MAX_BOTTOM;
+        } else if (top < Limit.MIN_TOP) {
+          top = Limit.MIN_TOP;
         }
 
         mapPinMain.style.left = left + 'px';
@@ -94,18 +102,18 @@
         setOfferAddress();
       };
 
-      var mouseUpHandler = function (upEvt) {
+      var onMouseUp = function (upEvt) {
         upEvt.preventDefault();
 
-        document.removeEventListener('mousemove', mouseMoveHandler);
-        document.removeEventListener('mouseup', mouseUpHandler);
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
       };
-      document.addEventListener('mousemove', mouseMoveHandler);
-      document.addEventListener('mouseup', mouseUpHandler);
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
     });
 
     mapPinMain.addEventListener('keydown', function (evt) {
-      if (evt.key === window.util.UserClick.ENTER && !window.form.isPageActive) {
+      if (evt.key === window.util.KeyType.ENTER && !window.form.isPageActive) {
         evt.preventDefault();
         activate();
       }
@@ -113,12 +121,12 @@
   };
 
   var setOfferAddress = function () {
-    var x = mapPinMain.offsetLeft + window.pin.PinSizeMain.HALF_WIDTH;
-    var y = mapPinMain.offsetTop + window.pin.PinSizeMain.HALF_HEIGHT;
+    var x = mapPinMain.offsetLeft + PinSizeMain.HALF_WIDTH;
+    var y = mapPinMain.offsetTop + PinSizeMain.HALF_HEIGHT;
 
     if (isActive) {
-      x = mapPinMain.offsetLeft + window.pin.PinSizeMain.HALF_WIDTH;
-      y = mapPinMain.offsetTop + window.pin.PinSizeMain.HEIGHT + window.pin.PinSizeMain.AFTER;
+      x = mapPinMain.offsetLeft + PinSizeMain.HALF_WIDTH;
+      y = mapPinMain.offsetTop + PinSizeMain.HEIGHT + PinSizeMain.AFTER;
     }
     addressInput.value = Math.floor(x) + ', ' + Math.round(y);
   };

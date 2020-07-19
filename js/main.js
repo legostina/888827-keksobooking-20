@@ -1,4 +1,6 @@
 'use strict';
 
-window.form.returnDefault();
-window.map.returnDefault();
+(function () {
+  window.form.returnDefault();
+  window.map.returnDefault();
+})();
