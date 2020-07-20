@@ -69,12 +69,27 @@
     window.pin.render(getFilteredPins());
   };
 
-  var getFilteredPins = function () {
-    var filteredPins = pins.filter(filterByHouseType).filter(filterByHousePrice).filter(filterByHouseRoom).filter(filterByHouseGuest).filter(filterByHouseFeatures);
+  var getIsPinFiltered = function (pin) {
+    return filterByHouseType(pin) && filterByHousePrice(pin) && filterByHouseRoom(pin) && filterByHouseGuest(pin) && filterByHouseFeatures(pin);
+  };
 
-    if (filteredPins.length > MAX_PINS_COUNT) {
-      return filteredPins.slice(0, MAX_PINS_COUNT);
+  var getFilteredPins = function () {
+    var filteredPins = [];
+
+    for (var i = 0; i < pins.length; i++) {
+      var pin = pins[i];
+
+      var isPinFiltered = getIsPinFiltered(pin);
+
+      if (isPinFiltered) {
+        filteredPins.push(pin);
+
+        if (filteredPins.length === MAX_PINS_COUNT) {
+          break;
+        }
+      }
     }
+
     return filteredPins;
   };
 

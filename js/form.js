@@ -253,6 +253,7 @@
   var onSuccess = function () {
     deactivate();
     window.pin.remove();
+    window.card.removePopup();
     window.map.deactivate();
     window.filter.reset();
     showSuccess();
@@ -263,6 +264,7 @@
 
     deactivate();
     window.pin.remove();
+    window.card.removePopup();
     window.map.deactivate();
     window.filter.reset();
   };
